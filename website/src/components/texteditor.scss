@@ -1,0 +1,54 @@
+.text-editor {
+	border-radius: 8px;
+	background: transparent;
+	border: none;
+	margin-left: var(--f7-menu-item-spacing);
+	margin-right: var(--f7-menu-item-spacing);
+
+	.my-text-editor-content {
+		border-radius: 8px;
+		background-color: #40444b;
+		padding: 15px;
+		font-size: 16px;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+
+		.text-editor-content {
+			flex-grow: 1;
+		}
+
+		.emoji-mart-emoji {
+			// margin: 0 1px;
+		}
+	}
+}
+
+.emoji-mart-dark {
+	color: #dcddde;
+	border-color: #2f3136;
+	background-color: #2f3136;
+
+	.emoji-mart-scroll {
+		margin-top: 1px;
+
+		.emoji-mart-category-label {
+			span {
+				font-size: 12px;
+				background-color: #2f3136;
+				color: #dcddde;
+				text-transform: uppercase;
+				font-family: "Whitney";
+				font-weight: 900;
+			}
+		}
+	}
+}
+
+.emoji-menu {
+	transition: transform 0.001s !important;
+
+	.popover-angle {
+		display: none;
+	}
+}

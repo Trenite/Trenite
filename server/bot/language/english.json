@@ -1,0 +1,506 @@
+{
+	"name": "english",
+	"language": "English",
+	"short": "EN",
+	"flag": "🇬🇧",
+	"commands": {
+		"coc": {
+			"coc-clan": {
+				"name": "coc-clan",
+				"description": "Info about a clash of clans clan by clan tag",
+				"args": {
+					"clan": "Enter your clan tag"
+				},
+				"notfound": "Clan not found",
+				"incorrect": "Incorrect request",
+				"notreachable": "Server is not reachable",
+				"fields": {
+					"name": "Name",
+					"tag": "Tag",
+					"type": "Type",
+					"level": "Clan-Level",
+					"points": "Clan-Points",
+					"wins": "War Wins",
+					"members": "Members"
+				}
+			},
+			"coc-player": {
+				"name": "coc-player",
+				"description": "Info about a clash of clans player by player tag",
+				"args": {
+					"clan": "Enter your player tag"
+				},
+				"notfound": "Player not found",
+				"incorrect": "Incorrect request",
+				"notreachable": "Server is not reachable",
+				"infoabout": "Information of **{player}**",
+				"fields": {
+					"level": "Level",
+					"tag": "Player-Tag",
+					"trophies": "Trophies",
+					"stars": "War Stars",
+					"donations": "Donations",
+					"halllevel": "Town Hall Level",
+					"clanname": "Clan-Name",
+					"clantag": "Clan-Tag",
+					"clanrole": "Clan-Role"
+				}
+			}
+		},
+		"bot": {
+			"feedback": {
+				"name": "feedback",
+				"description": "Send a feedback to the bot developer.",
+				"aliases": [
+					"bug",
+					"bugreport",
+					"feature",
+					"feature-request",
+					"request-feature",
+					"featurerequest",
+					"requestfeature"
+				],
+				"args": {
+					"feedback": "What is your feedback?"
+				},
+				"thanks": "Thanks for your feedback! 👍",
+				"error": "Feedback couldn't be send 😢\nPlease try again later."
+			},
+			"deletebot": {
+				"name": "deletebot",
+				"description": "Deletes your custombot",
+				"aliases": ["removebot", "requestdelete", "requestdeletion", "stop"],
+				"args": {
+					"feedback": "Are you sure you want to delete your custom bot?"
+				},
+				"aborting": "Aborting custom bot deletion",
+				"success": "Your bot was successfully deleted ✅"
+			},
+			"custombot": {
+				"name": "custombot",
+				"aliases": [
+					"custom-bot",
+					"newbot",
+					"new-bot",
+					"mybot",
+					"my-bot",
+					"requestbot",
+					"request-bot",
+					"byob",
+					"byob-bot",
+					"byobbot",
+					"copy-bot",
+					"copybot"
+				],
+				"description": "Creates you custom copy of the bot, with your profile picture and name",
+				"wantcreate": "If you want to create your custom copy of the bot, with you profile picture and name.\nFollow these steps:",
+				"newapplication": "Go to: https://discordapp.com/developers/applications/ click on ``'New Application'``, enter a  ``'Name'`` and click on ``'Create'``",
+				"addbot": "Now click on ``'Bot'``, then on ``'Add Bot'`` and on ``'Yes, do it!'``",
+				"sendtoken": "``'Copy'`` your bot token and send it to me",
+				"timeout": "Timeout for token exceeded",
+				"invalidtoken": "Invalid token",
+				"ratelimit": "Rate limited",
+				"alreadystarted": "{bot} already started",
+				"valid": "Token valid\nStarting {bot}",
+				"custombot": "Custom bot",
+				"success": "Started {bot}\nYou can invite your bot with this link:\n{link}\n\n⚠ You should delete your message with the token.\n\nProtip: On this site: {site} you can login into your bot",
+				"started": "Started",
+				"starting": "Starting",
+				"title": "Create a custom copy of the bot",
+				"alreadyhasbot": "You already have a custombot: {bot}",
+				"toomanyserver": "The Bot is in more than 5 servers"
+			},
+			"about": {
+				"name": "about",
+				"aliases": ["developer"],
+				"description": "Info about the bot",
+				"about": "I'm helping you to **improve** your server. 👍\nI have all the basic moderation-tools a Discord Server needs, and essential features like a music-player and a support-system.\nI have overall **{commands} commands** 🔨\nMy **command prefix** is ``{prefix}`` or ping me **{mention}help**\nbut you can change it anytime with: ``{prefix}prefix [yourPrefix]``\nIf you need **help** to setup your server, feel free to **join** our [**support server**]({support}})\nFor a complete **command overview** you can use **```{prefix}help```**\nYou can [**invite**]({invite}) me to other servers too.\n\n**Special Thanks**\n**Developer:** {developer}\n**Server Hoster:** Pepe#5119"
+			},
+			"vote": {
+				"name": "vote",
+				"aliases": ["sponsor"],
+				"description": "Help the developer of the bot and vote for it, thanks 🤝",
+				"vote": "Thank you for helping the developer of the bot 🤝\nYou can go ahead on vote here:\n",
+				"onevote": "{user} thank you for voting  👊",
+				"doublevote": "{user} thank you for your double vote 👊"
+			},
+			"invite": {
+				"name": "invite",
+				"description": "Sends the invite link for this bot",
+				"aliases": ["invitation"],
+				"inviteme": "You can invite me to other servers with this link:\n"
+			},
+			"help": {
+				"name": "help",
+				"description": "Displays a list of available commands, or detailed information for a specified command.",
+				"command": "Command",
+				"serveronly": "Usable only in servers",
+				"nsfw": "NSFW",
+				"format": "Format:",
+				"alias": "Aliases:",
+				"group": "Group:",
+				"details": "Details:",
+				"example": "Examples:",
+				"multiplecmds": "Multiple commands found. Please be more specific.",
+				"notfound": "Unable to identify command. Use {usage} to view the list of all commands.",
+				"anyserver": "To run a command in {server}, use {usage}.\nFor example, {example}.\nTo run a command in DM, simply use {dm} with no prefix.\n\nUse {specific} to view detailed information about a specific command.\nUse {all} to view a list of *all* commands, not just available ones.\n\n",
+				"allcommands": "All commands",
+				"availablecmd": "Available commands in {channel}"
+			},
+			"prefix": {
+				"name": "prefix",
+				"args": {
+					"prefix": "What would you like to set the bot's prefix to?"
+				},
+				"description": "Shows or sets the command prefix.\nIf no prefix is provided, the current prefix will be shown.\nIf the prefix is 'default', the prefix will be reset to the bot's default prefix.\nIf the prefix is 'none', the prefix will be removed entirely, only allowing mentions to run commands.\nOnly administrators may change the prefix.",
+				"currentprefix": "The command prefix is ``{prefix}``.",
+				"noprefix": "There is no command prefix.",
+				"usage": "To run commands, use {usage}.",
+				"onlyadmin": "Only administrators may change the command prefix.",
+				"isowner": "Only the bot owner(s) may change the global command prefix.",
+				"reset": "Reset the command prefix to the default (currently {current}).",
+				"prefixset": "Set the command prefix to ``{prefix}``.",
+				"prefixremoved": "Removed the command prefix entirely.",
+				"usagecmd": "To run commands, use {usage}.",
+				"noprefixset": "no prefix"
+			}
+		},
+		"audio": {
+			"music": {
+				"name": "music",
+				"aliases": ["play"],
+				"args": {},
+				"musicplayer": "Music Player",
+				"description": "Creates a Music Player",
+				"examples": [
+					"React with:\n⏯ to pause and resume\n⏹ to clear the queue\n⏮ to skip back to the previous song\n⏭ to skip\n🔀 to shuffle the queue\n🔁 to repeat the queue\n🔂 to hear the song in continuous loop\n🔎 to search for song (spotify, youtube)\n🔉 to turn down the volume\n🔊 to turn up the volume\n<:spotify:690172298346496116> to sync your spotify account and hear it in discord with your friends"
+				],
+				"live": "LIVE",
+				"empty": "Empty",
+				"volume": "Volume",
+				"loopsong": "Loop song",
+				"repeatqueue": "Repeat Queue",
+				"time": "Time",
+				"joinvoicechannel": "{member} you need to join a voicechannel first",
+				"songnotfound": "Song not found",
+				"playlistnotfound": "Couldn't find playlist",
+				"music": "Music",
+				"searching": "Searching",
+				"playing": "Playing",
+				"paused": "Paused",
+				"channelname": "music-system",
+				"musicsetupalready": "Music setup already done: {channel}\nJust enter your song name in {channel} **WITHOUT** any prefix or command",
+				"topic": "Just enter your song in this channel\n⏯ pause/resume the song\n⏹ clear the queue\n⏮ skip back to the previous song\n⏭ skip\n🔀 shuffle the queue\n🔁 repeat the queue\n🔂 hear the song in continuous loop\n🔉 turn down the volume\n🔊 turn up the volume",
+				"musicsetupdone": "Music channel setup done.\nYou can rename and move {channel}, if you want\n\n**Important**\nListen to music with style, no more hustle with commands.\nJust enter your song **WITHOUT** any prefix/command in the {channel} channel.",
+				"musicchannel": "Music Channel"
+			},
+			"tts": {
+				"name": "tts",
+				"description": "Says text in a voice channel",
+				"aliases": [],
+				"args": {
+					"text": "Which text should I say?\nEnter ``interactive`` to enable the interactive mode."
+				},
+				"tts": "Text to Speech",
+				"interactive": "Interactive mode enabled\nReact with ❌ to stop it.",
+				"content": "Content",
+				"novoice": "You arent in a voice channel.",
+				"voicechannel": "Voice Channel:",
+				"status": "Status:",
+				"saying": "Saying",
+				"amazonPolly": "Matthew"
+			},
+			"voicechannel": {
+				"name": "voicechannel",
+				"aliases": [
+					"autovoicechannel",
+					"generatevoicechannel",
+					"generatechannel",
+					"autochannel",
+					"join-to-create",
+					"join2create",
+					"jointocreate"
+				],
+				"description": "Automatically generates a custom user voice channel, if the user joins a specific auto voicechannel",
+				"args": {
+					"channel": "Enter the voicechannel to activate autogenerate (id, voiceChannelName)?\nEnter **``current``** to make the current voice channel you are in, a autovoicechannel\nIf you want to **disable** autogenerate, enter the channel again."
+				},
+				"added": "Autovoicechannel was **activated** for {channel}",
+				"removed": "Autovoicechannel was **deactivated** for {channel}",
+				"novoice": "You are not in a voicechannel!"
+			}
+		},
+		"setup": {
+			"language": {
+				"name": "language",
+				"description": "Change the bot language for this server",
+				"choose": "Choose your language:",
+				"timeout": "Language selection timeout exceeded",
+				"languageset": "Language set to {language}"
+			},
+			"custom-command": {
+				"name": "custom-command",
+				"description": "Create own commands for this server",
+				"aliases": [
+					"custom-command",
+					"custom-commands",
+					"custom-cmd",
+					"cmd–custom",
+					"costom-command",
+					"costom-commands",
+					"costom-cmd",
+					"tag"
+				],
+				"args": {
+					"trigger": "What do you want to do?\n``list`` if you want to see all the custom commands\n``create`` if you want to create a custom command\n``remove`` if you want to remove a custom command"
+				},
+				"timeout": "The time has expired",
+				"whatshouldcommandname": "What should the command name?\n   Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.",
+				"commandcanceld": "Command Canceled",
+				"whatshouldbotresponse": "What should the bot response?\n   Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 2 minutes.",
+				"shouldDMExecutable": "Should the command be executable in the DMs, write ``true`` if yes and ``false`` if no",
+				"alreadyexists": "It already has a command with the name ``{commandName}``",
+				"doyouwantcreate": "Do you want to create a command? \n Trigger:``{guildPrefix}{commadname}`` \n Response:``{commandContent}``\nExecutable in DM's: ``{dm}``",
+				"commandcreated": "Command created. \n Trigger:``{guildPrefix}{commadname}`` \n Response:``{commandContent}``\nExecutable in DM's: ``{dm}``",
+				"commandremoved": "``{guildPrefix}{commadname}`` was successfully removed.",
+				"nocommands": "Your guild doesn't have custom commands",
+				"commanddontexists": "This command name doesn't exist",
+				"notbooelan": "No correct answer, repeat the command again! ``True`` that the command can be executed in the DM's and ``false`` if not!"
+			},
+			"stickyroles": {
+				"name": "stickyroles",
+				"description": "The roles of a user are saved and when he re-enters the server, the roles are added again!",
+				"aliases": [
+					"pinned-roles",
+					"sync-roles"
+				],
+				"args": {
+					"stickyroles": "Should StickyRoles be activated or not? Write ``true`` if yes and false if ``no``"
+				},
+				"success": "Sticky Role mode was set to {stickyRolesBoolean}"
+			},
+			"wordfilter": {
+				"name": "wordfilter",
+				"description": "filter words on your server",
+				"aliases": [
+					"word-filter",
+					"wordsfilter",
+					"words-filter",
+					"filter-word",
+					"filter-words",
+					"filterword",
+					"filterwords",
+					"sweardwords",
+					"swear-words",
+					"swear-word",
+					"blackword",
+					"black-word",
+					"black-words",
+					"blackwords",
+					"word-black",
+					"ban-words"
+				],
+				"args": {
+					"trigger": "What do you want to do?\n``list`` if you want to see all the banned words\n``create`` if you want to create a banned word\n``remove`` if you want to remove a banned word"
+				},
+				"timeout": "The time has expired",
+				"wordisblocked": "{word} is a blacklisted word, please refrain from using it.",
+				"whichword": "What should be the banned word?\n   Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.",
+				"commandcanceld": "Command Canceled",
+				"doyouwantcreate": "Do you want to add this banned word? \n Word:``{word}``",
+				"created": "Word added. \n Word:``{word}``",
+				"wordremoved": "Word was successfully removed.",
+				"nowords": "Your guild doesn't have banned words",
+				"wordnotexists": "This banned word doesn't exist"
+			},
+			"setdescription": {
+				"name": "setdescription",
+				"description": "Set your own description",
+				"aliases": ["description-set"],
+				"args": {
+					"description": "What should be your description?"
+				},
+				"sucessfullyset": "Description was set!"
+			},
+			"poll": {
+				"name": "poll",
+				"description": "Create a poll",
+				"aliases": ["abstimmung", "voting"],
+				"args": {
+					"title": "What is the title of the poll?",
+					"question": "What is your question?"
+				},
+				"howtoend": "You can end the poll with \n -end-poll message link \nExample: ``-end-poll https://discordapp.com/channels/683026970606567440/700597872399220787/747498209319976970``"
+			},
+			"headline": {
+				"name": "headline",
+				"description": "Creates a image headline of your text",
+				"aliases": [
+					"createimage",
+					"imagecreate",
+					"create-picture",
+					"createpicture",
+					"picture-create",
+					"picturecreate",
+					"headline",
+					"header",
+					"text2image",
+					"texttoimage",
+					"text2picture",
+					"texttopicture",
+					"profilepicture",
+					"pb",
+					"pp",
+					"picture"
+				],
+				"args": {
+					"text": "Enter the text you want to create a headline of?"
+				},
+				"pleaseuploadimage": "Please upload a background image.",
+				"enterY": "Enter the y coordinate of the text.\nCurrent dimensions:\nWidth: {width}\nHeight: {height}",
+				"enterX": "Enter the x coordinate of the text.\nCurrent dimensions:\nWidth: {width}\nHeight: {height}",
+				"enterText": "Enter the the new text.\nCurrent text: {text}",
+				"enterFont": "Enter the font for the text:\ne.g. ``Arial`` or ``lypix-font``\nCurrent font: ",
+				"enterSize": "Enter the font size for the text:\ne.g. ``60`` or ``250``",
+				"enterColor": "`Enter the color of the text.\nCurrent color: {color}`",
+				"pleaseUploadValidImage": "Please upload a valid image",
+				"notavalidnumber": "Not a valid number",
+				"embedDescription": "\n🖼 to change the background image\n🎚️ to change the font size of the text\n🔤 to change the font of the text\n🎨 to change the color of the text\n📝 to change the text\n🇽 to change the x coordinate of the text\n🇾 to change the y coordinate of the text\n ✅ to finish editing"
+			},
+			"roster": {
+				"name": "roster",
+				"description": "Create a list of role members, a roster!",
+				"aliases": ["rolelist", "roles-list", "roleslist", "role-list"],
+				"args": {
+					"roles": "**Enter the roles in new lines**\nYou can just enter the **name**, **id** or **mention** it\nIf role doesn't show up make sure to write the exact case sensitive name and **no other role with the same exact name exist**"
+				}
+			},
+			"leave": {
+				"name": "leave",
+				"description": "Set the goodbye Message if a user leaves the Server",
+				"aliases": ["leaves", "left", "goodbye"],
+				"args": {
+					"channel": "In which channel the message should be sent?\nIf not write disabled",
+					"channelText": "How should the user be said goodbye in public channel when he leaves the server?\nIf not write disabled"
+				},
+				"activated": "Goodbye on leave activated for channel: {channel}\nWith text:\n{text}",
+				"deactivated": "Goodbye on leave deactivated for Channel"
+			},
+
+			"support": {
+				"name": "support",
+				"aliases": ["support"],
+				"description": "Create your own support system to help your users",
+				"reactmsg": "To request support click on the question mark",
+				"created": "{member} created the support system in {channel}.",
+				"alreadyticket": "You already have a open support ticket",
+				"open": "support ticket opened at {datum}",
+				"yoursupport": "Hello!\nThis is your support channel!"
+			}
+		},
+		"fortnite": {
+			"fn-creative": {
+				"name": "fn-kreativ",
+				"aliases": ["fn-kreativ", "fortnite-kreativ"],
+				"args": {
+					"anzahl": "How many user can play?",
+					"map": "Which Map?"
+				},
+				"description": "create a kreativ lobby",
+				"title": "Meltic Fortnite Creative",
+				"players": "Players:",
+				"start": "``{bot} is starting...",
+				"anschreiben": "**{anzahl}** will get more informations with dm.",
+				"map": "Map:",
+				"hoster": "Hoster:",
+				"notlinked": "You aren't linked.",
+				"receiveFA": "You should receive a friend request in fortnite from ``{bot}``",
+				"alreadyFA": "You had arleady get a fa from ``{bot}``",
+				"autodecline": "You declined the friend request, make sure to disable 'auto-decline mode'",
+				"invite": "You should get invited by ``{bot}``",
+				"started": "**{anzahl}** User are in the lobby, you can start.",
+				"alreadyrunning": "You're running already a kreativ round.",
+				"cancel": "Round was successfully canceld."
+			}
+		},
+		"util": {
+			"dm": {
+				"name": "dm",
+				"aliases": ["direktnachricht", "directmessage"],
+				"args": {
+					"user": "Which user should received a message?",
+					"dmmessage": "Which message should he receive?"
+				},
+				"description": "send a direct message to a user",
+				"success": "DM successfully sent",
+				"dmClosed": "The DM of this user is closed, i can't send the message."
+			}
+		},
+		"economy": {
+			"balance": {
+				"name": "balance",
+				"aliases": ["money", "credits", "bal"],
+				"args": {
+					"user": "Which user you would like to get the balance of?"
+				},
+				"description": "shows the money about a user",
+				"balanceMessage": "{user} has {balance} {currency}"
+			},
+			"leaderboard": {
+				"name": "leaderboard",
+				"aliases": ["eco-leaderboard", "topten", "top-ten", "top-10", "top10", "leaderboard-eco"],
+				"description": "shows the economy leaderboard"
+			},
+			"add-balance": {
+				"name": "add-balance",
+				"aliases": ["addbalance", "balance-add", "balanceadd"],
+				"args": {
+					"user": "Which user you would like to add balance?",
+					"amount": "Which amount do you want to add?"
+				},
+				"description": "add balance to user",
+				"addedMessage": "{user} new Balance is {balance} {currency}",
+				"addedMessageTitle": "Added Balance! 💸"
+			},
+			"set-currency": {
+				"name": "set-currency",
+				"aliases": ["setcurrency", "currency-set", "currencyset"],
+				"args": {
+					"currency": "What should be the new Guild currency?"
+				},
+				"description": "Set the Currency of your guild",
+				"success": "Your currency was set to {currency}",
+				"successTitle": "Currency set"
+			}
+		}
+	},
+	"general": {
+		"error": "Error",
+		"or": "or",
+		"commando": {
+			"invalidlabel": "You provided an invalid {label}. Please try again",
+			"cancelcmd": "`cancel` to cancel the command.",
+			"autocancel": "The command will automatically be cancelled in {wait} seconds.",
+			"invokedby": "Invoked by {user}",
+			"internalerror": "Internal server error: {code}",
+			"reporttodev": "This error was reported to the dev and will soon be fixed",
+			"fatalerror": "FATAL ERROR",
+			"guildonlydesc": "`{name}` command must be used in a server channel.",
+			"guildonly": "Server only",
+			"notnsfw": "Not a nsfw channel",
+			"notnsfwdesc": "`{name}` command can only be used in NSFW channels.",
+			"nopermission": "Insufficient permissions",
+			"nopermissiondesc": "You do not have permission to use the `{name}` command.",
+			"botpermissions": "Bot has insufficient permissions",
+			"botpermissionsOne": "I need the {permission} permission for the `{name}` command to work.",
+			"botpermissionsMultiple": "I need the following permissions for the `{name}` command to work: {permissions}",
+			"throttled": "Throttled",
+			"throttleddesc": "You may not use the `{name}` command again for another {seconds} seconds.",
+			"errordesc": "Error: {title}",
+			"owneronly": "This command can only be used by the bot owner",
+			"devonly": "This command can only be used by the bot developer",
+			"missingpermissions": "You don't have the ``{permission}`` permission.",
+			"multiplemissingpermissions": "You don't have: ``{permissions}`` permissions."
+		}
+	}
+}

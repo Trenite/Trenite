@@ -1,0 +1,69 @@
+const assert = require("assert");
+const test = require("../discord-test.js");
+
+describe("music command", () => {
+	async function sendMsg() {
+		// standard music message
+
+		var answers = await test.send("music bad guy", { max: 2 });
+		return {
+			picture: answers[0],
+			player: answers[1],
+		};
+	}
+
+	it("should return a error message voicechannel", async () => {
+		test.sleep(1000);
+		var update = test.waitFor("messageUpdate", {
+			filter(_, msg) {
+				msg = msg.embeds[0];
+				return msg.author !== null && msg.author.name !== "Empty" && msg.title === "Music Player";
+			},
+		});
+		var { picture, player } = await sendMsg();
+		update = await update;
+		this.picture = picture;
+		this.player = player;
+		// returns a messageUpdate event [oldMessage, newMessage]
+		// https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-messageUpdate
+
+		update = player.edits[0].embeds[0];
+		player = player.edits[player.edits.length - 1].embeds[0];
+		picture = picture.embeds[0];
+
+		assert(picture.image.url);
+		assert.equal(player.title, "Music Player");
+		assert.equal(player.author.name, "Empty");
+		assert(update.author.name.includes("Error"));
+	});
+
+	it("should update the message if I join the channel", async () => {
+		var update = test.waitFor("messageUpdate");
+		var reactions = test.waitFor("messageReactionAdd", { count: 12 });
+
+		var talk = test.bot.channels.resolve(test.config.voice);
+		await talk.join();
+
+		update = await update;
+		update = update[1].embeds[0];
+
+		assert.equal(update.author.name, "Empty");
+
+		reactions = await reactions;
+
+		var emojis = "🔎,⏯,⏹,⏮,⏭,🔀,🔁,🔂,🔉,🔊,🗑️,spotify".split(",");
+		var i = 0;
+		assert.equal(reactions.length, 12);
+		for (var reaction of reactions) {
+			reaction = reaction[0];
+			assert.equal(reaction.emoji.name, emojis[i++]);
+		}
+	});
+
+	// it("should search the song specified at start", async () => {
+	// 	await test.waitFor("messageUpdate");
+	// 	var player = this.player.embeds[0];
+
+	// 	assert(player.author.name.includes("Searching"));
+	// });
+});

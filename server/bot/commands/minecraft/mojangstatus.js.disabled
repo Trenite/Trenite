@@ -1,0 +1,66 @@
+const { Command } = require("discord.js-commando");
+
+module.exports = class MojangCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "mc-service", //lowercase
+			memberName: "mojang-service", //lowercase
+			aliases: [],
+			group: "minecraft", // [audio, bot, dev, fortnite, fun, games, media, minecraft, mod, nsfw, stats, util]
+			description: "displays current availability of mojangs services",
+			examples: ["mc-service"],
+			userPermissions: ["SEND_MESSAGES"],
+			clientPermissions: ["SEND_MESSAGES"], // https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
+			guildOnly: true,
+			devOnly: true,
+		});
+
+		this.highest;
+		this.Status;
+	}
+
+	async getStatus() {
+		const statusSymbols = ["🟢", "🟠", "🔴"];
+		const kek = { "🟢": 0, "🟠": 0, "🔴": 0 };
+		let status = await fetch("https://status.mojang.com/check");
+		status = await status.json();
+
+		for (x of status) {
+			var y = Object.keys(x)[0];
+			switch (x[y]) {
+				case "red":
+					kek[statusSymbols[2]]++;
+					x[y] = statusSymbols[2];
+					break;
+				case "yellow":
+					kek[statusSymbols[1]]++;
+					x[y] = statusSymbols[1];
+					break;
+				case "green":
+					kek[statusSymbols[0]]++;
+					x[y] = statusSymbols[0];
+					break;
+			}
+		}
+
+		this.highest = Object.entries(kek).sort((a, b) => b[1] - a[1])[0][0];
+
+		switch (highest) {
+			case "🟢":
+				highest = "#00ff00";
+				break;
+			case "🟠":
+				highest = "#ffff00";
+				break;
+			case "🔴":
+				highest = "#ff0000";
+				break;
+		}
+
+		return (this.Status = status);
+	}
+
+	async run(msg, args) {
+		
+	}
+};

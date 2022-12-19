@@ -1,0 +1,254 @@
+const { Command } = require("discord.js-commando");
+const fetch = require("node-fetch");
+
+module.exports = class InstagramCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "instagram", //lowercase
+			memberName: "instagram", //lowercase
+			aliases: ["insta"],
+			group: "media", // [dev, fortnite, fun, mod, audio, util]
+			description: "Enable channel notifications on new Instagram videos",
+			examples: ["instagram list", "instagram pewdiepie"],
+			userPermissions: ["MANAGE_WEBHOOKS"],
+			clientPermissions: ["SEND_MESSAGES"], // https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
+			guildOnly: true,
+			args: [
+				{
+					key: "user",
+					prompt:
+						"Enter the instagram username/link\n``list`` if you want see all current subscriptions for this channel",
+					type: "string",
+				},
+			],
+		});
+		var self = this;
+		client.once("providerReady", async () => {
+			self.subscriptions = (await client.provider.get("global", "instagram")) || [];
+			client.setInterval(this.fetchSubscriptions.bind(this), 1000 * 60 * 10);
+			this.fetchSubscriptions();
+		});
+	}
+
+	async isOnline(id) {
+		var res = await fetch(
+			`https://www.instagram.com/graphql/query/?query_hash=d4d88dc1500312af6f937f7b804c68c3&variables={"user_id":"${id}","include_chaining":false,"include_reel":false,"include_suggested_users":false,"include_logged_out_extras":false,"include_highlight_reels":false,"include_live_status":true}`
+		);
+		res = await res.json();
+		if (res.status !== "ok" || !res.data.user) throw "User not found"
+		return res.data.user.is_live;
+	}
+
+	async getPosts(username) {
+		var res = await fetch(`https://www.instagram.com/${username}/?__a=1`, {
+			headers: {
+				"user-agent":
+					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+			},
+			method: "GET",
+		});
+		res = await res.json().catch((e) => {
+			throw "rate limited"
+		});
+		if (!res.graphql || !res.graphql.user) throw "User not found"
+		return res.graphql.user.edge_owner_to_timeline_media.edges.map((x) => x.node);
+	}
+
+	async getNewPosts(username) {
+		var posts = await this.getPosts(username);
+		var ids = posts.map((x) => x.id);
+		var subscription = this.subscriptions.find((x) => x.name === username);
+		if (!subscription) return;
+
+		var posted = subscription.posts;
+		var newPosts = posts.filter((x) => !posted.find((p) => p === x.id));
+		return newPosts;
+	}
+
+	async handleSubscription(sub) {
+		var live = await this.isOnline(sub.id);
+		var posts = await this.getNewPosts(sub.name);
+		sub.posts = sub.posts.concat(posts.map((x) => x.id));
+		var channel = this.client.channels.resolve(sub.channel);
+		if (!channel) return;
+
+		for (const post of posts) {
+			var description = post.edge_media_to_caption.edges[0] ? post.edge_media_to_caption.edges[0].node.text : "";
+			var answer = await channel.send("", {
+				noEmbed: true,
+				embed: {
+					url: `https://www.instagram.com/p/${post.shortcode}`,
+					color: "#C13584",
+					title: "New Instagram post",
+					description,
+					author: {
+						name: sub.full_name,
+						icon_url: sub.profile_pic_url_hd,
+					},
+					footer: {
+						text: "Instagram",
+						icon_url: "https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png",
+					},
+					image: {
+						url: post.display_url,
+					},
+				},
+			});
+			await answer.react("🥳").catch((e) => {});
+		}
+	}
+
+	async fetchSubscriptions() {
+		for (const sub of this.subscriptions) {
+			await this.handleSubscription(sub);
+			await new Promise((res) => setTimeout(res, 10000));
+		}
+		await this.client.provider.set("global", "instagram", this.subscriptions);
+	}
+
+	async subscriptionManager({ msg, args, answer }) {
+		const { client, guild, member } = msg;
+		var { user } = args;
+
+		user = user.replace(/https:\/\/(www.)?instagram.com\//g, "").replace(/\/.+/g, "");
+
+		var res = await fetch(`https://www.instagram.com/${user}/?__a=1`, {
+			headers: {
+				"user-agent":
+					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+			},
+			method: "GET",
+		});
+		res = await res.json().catch((e) => {
+			throw "Please wait a bit before executing the command again"
+		});
+
+		if (!res.graphql) throw "User not found"
+		var {
+			biography,
+			id,
+			full_name,
+			profile_pic_url_hd,
+			username,
+			is_private,
+			edge_owner_to_timeline_media: posts,
+			edge_follow: follows,
+			edge_followed_by: follower,
+		} = res.graphql.user;
+		if (!full_name) full_name = username;
+		var link = `https://www.instagram.com/${user}`;
+		follows = follows.count;
+		follower = follower.count;
+
+		if (is_private) throw "User is private. You need to change it to a public account"
+
+		var subscriptions = this.subscriptions;
+		const userLink = `[${full_name}](${link})`;
+		const alreadySubscribed = subscriptions.find((x) => x.id === id);
+		const action = alreadySubscribed ? "DISABLE" : "ENABLE";
+
+		answer.edit(
+			`Do you want to **${action}** notifcations for ${userLink}, 
+				if he posts a new photo or goes live?
+			`,
+			{
+				title: "Instagram Channel Notifications",
+				embed: {
+					url: link,
+					image: {
+						url: profile_pic_url_hd,
+					},
+				},
+			}
+		);
+		answer.react("✅");
+		answer.react("❌");
+		var collected = await answer
+			.awaitReactions(
+				(reaction, u) => u.id === member.id && (reaction.emoji.name === "✅" || reaction.emoji.name === "❌"),
+				{ time: 1000 * 30, errors: ["time"], max: 1 }
+			)
+			.catch((e) => {
+				throw "Timeout exceeded to respond"
+			});
+		collected = collected.first();
+		answer.reactions.removeAll();
+		switch (collected.emoji.name) {
+			case "✅":
+				if (alreadySubscribed) {
+					answer.edit(`You **UNSUBSCRIBED** from ${userLink} and WON'T get notified!`, {
+						title: "Instagram Notifications disabled",
+						embed: {
+							author: {
+								name: "Success",
+								icon_url: client.savedEmojis.success.url,
+							},
+						},
+					});
+					this.subscriptions = this.subscriptions.filter((x) => x.id !== id);
+				} else {
+					// client.server.emit("subscribe#instagram", { id: id, type: channel.type });
+					answer.edit(`You will be notified in ${msg.channel}, if ${userLink} creates a post or goes live`, {
+						title: "Instagram Notifications enabled",
+						embed: {
+							author: {
+								name: "Success",
+								icon_url: client.savedEmojis.success.url,
+							},
+						},
+					});
+					var online = await this.isOnline(id);
+					var posts = await this.getPosts(username);
+					var ids = posts.map((x) => x.id);
+					this.subscriptions.push({
+						id: id,
+						name: username,
+						full_name,
+						posts: ids,
+						online,
+						channel: msg.channel.id,
+						profile_pic_url_hd,
+					});
+				}
+				await client.provider.set("global", "instagram", this.subscriptions);
+				break;
+			case "❌":
+				throw "Instagram Notifications aborted"
+			default:
+				throw "Unkown Emoji"
+		}
+	}
+
+	async listSubscriptions({ msg, args }) {
+		const { client, guild, member, channel } = msg;
+		const { user } = args;
+
+		var subscriptions = this.subscriptions.filter((x) => x.channel === channel.id);
+		if (!subscriptions.length) return await msg.reply("You have no subscription in this channel");
+
+		await msg.reply(
+			`You have currently have ${subscriptions.length} active subscription/s:\n${subscriptions
+				.map((sub) => `- [${sub.name}](https://www.instagram.com/${sub.name})`)
+				.join("\n")}`,
+			{ title: "Instagram Notification list" }
+		);
+	}
+
+	async run(msg, args) {
+			const { client, guild, member } = msg;
+			const { user } = args;
+
+			if (user === "list") return await this.listSubscriptions({ msg, args });
+
+			var answer = await msg.reply("Searching for **``" + user + "``**", {
+				embed: {
+					author: {
+						name: "Searching ...",
+						icon_url: client.savedEmojis.searching.url,
+					},
+				},
+			});
+
+			await this.subscriptionManager({ msg, args, answer });
+	}
+};

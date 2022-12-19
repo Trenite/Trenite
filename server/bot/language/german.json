@@ -1,0 +1,543 @@
+{
+	"name": "german",
+	"language": "Deutsch",
+	"short": "DE",
+	"flag": "🇩🇪",
+	"commands": {
+		"coc": {
+			"coc-clan": {
+				"name": "coc-clan",
+				"description": "Info über einen Clash of Clans Clan anhand vom tag",
+				"args": {
+					"clan": "Gib bitte den Clan tag ein"
+				},
+				"notfound": "Clan nicht gefunden",
+				"incorrect": "Ungültige Anfrage",
+				"notreachable": "Server ist nicht erreichbar, bitte probiere es später erneut",
+				"fields": {
+					"name": "Name",
+					"tag": "Tag",
+					"type": "Typ",
+					"level": "Clan Level",
+					"points": "Clan-Punkte",
+					"wins": "Clan Krieg Siege",
+					"members": "Mitglieder"
+				}
+			},
+			"coc-player": {
+				"name": "coc-spieler",
+				"description": "Info über einen Clash of Clans Spieler",
+				"args": {
+					"clan": "Gib deinen Spieler tag ein"
+				},
+				"notfound": "Spieler nicht gefunden",
+				"incorrect": "Ungültige Anfrage",
+				"notreachable": "Server ist nicht erreichbar, bitte probiere es später erneut",
+				"infoabout": "Information über **{player}**",
+				"fields": {
+					"level": "Level",
+					"tag": "Spieler-Tag",
+					"trophies": "Trophäen",
+					"stars": "Clan Krieg Sterne",
+					"donations": "Spenden",
+					"halllevel": "Rathaus Level",
+					"clanname": "Clan-Name",
+					"clantag": "Clan-Tag",
+					"clanrole": "Clan-Rolle"
+				}
+			}
+		},
+		"bot": {
+			"feedback": {
+				"name": "bewerten",
+				"description": "Gib uns Feedback zum Bot oder melde einen Fehler",
+				"aliases": [
+					"fehlermelden",
+					"fehler-melden",
+					"melde-fehler",
+					"meldefehler",
+					"fehler",
+					"verbesserungsvorschlag",
+					"verbesserungsvorschläge"
+				],
+				"args": {
+					"feedback": "Welches Feedback kannst du uns zum Bot geben?\nHast du einen Verbesserungsvorschlag?\nMelde einen Fehler?\nOder wünscht dir eine Funktion?"
+				},
+				"thanks": "Danke für dein Feedback! 👍",
+				"error": "Feedback konnte nicht gesendet werden 😢\nBitte versuche es später erneut."
+			},
+			"deletebot": {
+				"name": "bot-löschen",
+				"description": "Löscht deinen eigene bot",
+				"aliases": [
+					"stop",
+					"löschen-anfordern",
+					"löschung-anfordern",
+					"stop"
+				],
+				"args": {
+					"feedback": "Bist du dir sicher, dass du deinen custombot löschen möchtest?"
+				},
+				"aborting": "Löschen wird abgebrochen",
+				"success": "Dein custombot wurde erfolgreich gelöscht ✅"
+			},
+			"custombot": {
+				"name": "bot-erstellen",
+				"aliases": [
+					"boterstellen",
+					"erstelle-bot",
+					"eigener-bot",
+					"eigenerbot",
+					"bot-kopieren",
+					"kopiere-bot",
+					"botkopierem",
+					"byob",
+					"kopiere-bot",
+					"kopierebot"
+				],
+				"description": "Erstellt eine eigene Kopie vom Bot, mit eigenem Profilbild und Namen",
+				"wantcreate": "Wenn du eine eigene Kopie vom Bot erstellen möchtest, mit eigenem Profilbild und Namen, dann folge diesen Schritten:",
+				"newapplication": "Gehe auf: https://discordapp.com/developers/applications/ klicke auf ``'New Application'``, gib einen ``'Name'`` ein und klicke auf ``'Create'``",
+				"addbot": "Dann klicke auf ``'Bot'``, ``'Add Bot'`` und zuletzt auf ``'Yes, do it!'``",
+				"sendtoken": "Zuletzt klicke auf ``'Copy'`` und sende mir hier den Token",
+				"timeout": "Du hast zulange gebraucht den Token zu schicken",
+				"invalidtoken": "Ungültiger token",
+				"ratelimit": "Limit erreicht, probiere es später erneut",
+				"alreadystarted": "Der Bot {bot} wurde schon gestartet",
+				"valid": "Gültiger Token\nStarte Bot {bot}",
+				"custombot": "Eigenen Bot",
+				"success": "Bot {bot} erfolgreich gestartet\nDu kannst den Bot mit folgenden Link einladen:\n{link}\n\n⚠ Du solltest deine Nachricht mit dem Bot token aus Sicherheitsgründen löschen.\n\nProtip: Auf dieser Seite: {site} kannst du dich auf deinen Bot einloggen.",
+				"started": "Gestartet",
+				"starting": "Startet",
+				"title": "Erstelle eine Kopie vom Bot",
+				"alreadyhasbot": "Du hast bereits einen eigenen Bot: {bot}"
+			},
+			"about": {
+				"name": "über",
+				"aliases": [
+					"überuns"
+				],
+				"description": "Info über den Bot und die Entwickler",
+				"about": "Hi, ich helfe dir auf deinem Server. 👍\nIch habe alle standard moderations Commands und ein besonders einfaches Musik System\nInsgesamt habe ich über **{commands} Commands**\nMein **Command prefix** ist ``{prefix}``, du kannst mich aber auch einfach erwähnen: **{mention} help**\nNatürlich kannst du den prefix jederzeit mit ``{prefix}prefix [neuerPrefix]`` ändern\nWenn du hilfe brauchst den Bot aufzusetzen kannst du auch unseren [**support server**]({support}) beitreten\nFür einen komplette **Command Übersicht** benutze einfach:**```{prefix}{help}```**\nDu kannst mich auch auf andere Server [**einladen**]({invite}).\n\n**Besonderer Dank**\n**Entwickler:** {developer}\n**Sponsor:** Pepe#5119"
+			},
+			"vote": {
+				"name": "abstimmen",
+				"aliases": [
+					"wählen"
+				],
+				"description": "Helfe den Entwicklern und stimme für den Bot ab, danke 🤝",
+				"vote": "Vielen Dank, dass du den Entwicklern helfen möchtest 🤝\nDu kannst hier abstimmen:\n",
+				"onevote": "{user} danke für deine Stimme 👊",
+				"doublevote": "{user} danke für deine doppel Abstimmung (nur am Wochenende) 👊"
+			},
+			"invite": {
+				"name": "einladen",
+				"description": "Sendet den Einladungslink für diesen bot",
+				"aliases": [
+					"einladung"
+				],
+				"inviteme": "Du kannst mich mit folgenden Link auf andere Server einladen:\n"
+			},
+			"help": {
+				"name": "hilfe",
+				"description": "Zeigt die Liste aller verfügbaren Commands an, oder eine detaillierte beschreibung für einen bestimmten Command",
+				"command": "Befehl",
+				"serveronly": "Nur auf server nutzbar",
+				"nsfw": "18+",
+				"format": "Format:",
+				"alias": "Aliasse:",
+				"group": "Gruppe:",
+				"details": "Details:",
+				"example": "Beispiele:",
+				"multiplecmds": "Mehrere Commands gefunden, bitte suche spezifischer",
+				"notfound": "Befehl nicht gefunden. Benutze {usage}, um alle Commands anzeigen.",
+				"anyserver": "Um einen Command in {server} ausfzuführen, benutze {usage}.\nZum Beispiel: ${example}.\nUm einen Command in einem privaten Chat auszuführen, benutze einfach: {dm} ohne prefix.\n\nBenutze {specific}, um die detaillierte Beschreibung für einen bestimmten Command zu bekommen.\nBenutze {all} um wirklich alle Commands zu sehen.\n\n",
+				"allcommands": "Alle Commands",
+				"availablecmd": "Verfügbare Commands in {channel}"
+			},
+			"prefix": {
+				"name": "Prefix",
+				"args": {
+					"prefix": "Welchen prefix möchtest du setzen?"
+				},
+				"description": "Zeigt oder setzt den Botprefix.\nWenn du keinen prefix angibst, dann wird der aktuelle prefix angezeigt.\nWenn du 'default' als prefix wählst, wird der Botprefix zurück gesetzt.\nWenn du 'none' als prefix wählst, wird der Botprefix komplett entfernt und du kannst Commands nur noch mit Erwähnungen benutzen.\nNur Administrator können den prefix ändern.",
+				"currentprefix": "Der prefix ist ``{prefix}``",
+				"noprefix": "Es gibt keinen prefix.",
+				"usage": "Um Commands auszuführen, benutze {usage}.",
+				"onlyadmin": "Nur Administrator können den prefix ändern.",
+				"isowner": "Nur der Bot Inhaber kann den global prefix vom bot ändern",
+				"reset": "Setzt den prefix zum standard prefix zurück (jetzt: {current}). ",
+				"prefixset": "Der Bot prefix wurde zu: ``{prefix}`` gesetzt. ",
+				"prefixremoved": "Entfern den bot prefix komplett.",
+				"usagecmd": "Um Commands auszuführen, benutze: {usage}",
+				"noprefixset": "Kein prefix"
+			}
+		},
+		"audio": {
+			"music": {
+				"name": "musik",
+				"aliases": [
+					"abspielen"
+				],
+				"args": {},
+				"musicplayer": "Musik",
+				"description": "Damit kann man Musik hören",
+				"examples": [
+					"Reagiere mit:\n⏯ Um das Lied zu pausieren/weiterzuspielen\n⏹ Um die Warteschlage zu löschen\n⏮ Springe zurück zum vorherigen Lied\n⏭ Zum überspringen\n🔀 Um die Warteschlange zufällig abzuspielen\n🔁 Um die Warteschlange zu wiederholen\n🔂 Um das Lied dauerhaft zu hören\n🔎 Um ein Lied zu suchen (spotify, youtube)\n🔉 Um die Lautstärke zu verringern\n🔊 Um die Lautstärke zu erhöhen\n<:spotify:690172298346496116> Um deinen Spotify Account zu synchronisieren"
+				],
+				"live": "LIVE",
+				"empty": "Leer",
+				"volume": "Lautstärke",
+				"loopsong": "Lied wiederholen",
+				"repeatqueue": "Warteschlange wiederholen",
+				"time": "Zeit",
+				"joinvoicechannel": "{member} du musst erst einen Sprachkanal betreten",
+				"songnotfound": "Lied nicht gefunden",
+				"playlistnotfound": "Ich konnte die Playlist nicht finden",
+				"music": "Musik",
+				"searching": "Suche",
+				"playing": "Wird abgespielt",
+				"paused": "Pausiert",
+				"channelname": "meltic-musik",
+				"musicsetupalready": "Die Musik Einrichtung ist bereits abgeschlossen: {channel}\nDu kannst einfach den songnamen in {channel} eingeben, **ohne prefix und ohne kommand**.",
+				"topic": "Schreibe einfach nur den Namen des Lieds in den Kanal\n⏯ Lied pausieren/weiterzuspielen\n⏹ Warteschlage löschen\n⏮ Vorheriges Lied\n⏭ Überspringen\n🔀 Warteschlange zufällig abzuspielen\n🔁 Warteschlange wiederholen\n🔂 Lied dauerhaft hören\n🔉 Lautstärke verringern\n🔊 Lautstärke erhöhen",
+				"musicsetupdone": "Musik Einrichtung abgeschlossen.\nDu kannst {channel} umbennen und verschieben, sowie du es willst.\n\n**WICHTIG**\nDas ist ein neues Musiksystem, du brauchst jetzt kein prefix und kommand mehr eingeben um musik abzuspielen, sondern kannst den Liednamen einfach in {channel} reinschicken.",
+				"musicchannel": "Musik Kanal"
+			},
+			"tts": {
+				"name": "sage",
+				"description": "Sagt text in einem Sprachkanal",
+				"aliases": [],
+				"args": {
+					"text": "Welchen text soll ich sagen?\nGib ``interactive`` ein, um den interaktiven modus zu aktivieren"
+				},
+				"tts": "Text zu Sprache",
+				"interactive": "Interaktiver Modus aktiviert\nReagiere mit ❌ um den Modus zu beenden.",
+				"content": "Text:",
+				"novoice": "Du bist in keinem Sprachkanal.",
+				"voicechannel": "Sprachkanal:",
+				"status": "Status:",
+				"saying": "Sage",
+				"amazonPolly": "Hans"
+			},
+			"voicechannel": {
+				"name": "kanalgenerator",
+				"aliases": [
+					"sprachkanal-generator",
+					"kanal-generator",
+					"beitreten-zum-erstellen",
+					"autokanal",
+					"zum-erstellen-beitreten",
+					"join2create",
+					"jointocreate"
+				],
+				"description": "Erstellt automatisch einen eigenen Sprachkanal, wenn ein Nutzer einen speziellen Kanal beitritt",
+				"args": {
+					"channel": "Gib den Sprachkanal ein (name/id) um den automatischen Sprachkanal Generator zu aktivieren.\nGib **``current``** ein, um den aktuellen Sprachkanal, in dem du dich befindest, in einen auto Sprachkanal umzuwandeln.\nWenn du den auto Sprachkanal **ausschalten** möchtest, gib einfach den Sprachkanal Namen erneut ein."
+				},
+				"added": "Der automatische Sprachkanal wurde für {channel} **aktiviert**",
+				"removed": "Der automatische Sprachkanal wurde für {channel} **deaktiviert**",
+				"novoice": "Du befindest dich in keinem Sprachkanal"
+			}
+		},
+		"setup": {
+			"language": {
+				"name": "sprache",
+				"description": "Ändere die Bot Sprache für diesen Server",
+				"choose": "Wähle deine Sprache:",
+				"timeout": "Du hast zu lange gebraucht, um eine Sprache zu wählen",
+				"languageset": "Sprache wurde auf {language} gesetzt"
+			},
+			"custom-command": {
+				"name": "custom-command",
+				"description": "Erstelle eigene Befehle für diesen Server",
+				"aliases": [
+					"custom-command",
+					"custom-commands",
+					"custom-cmd",
+					"cmd–custom",
+					"costom-command",
+					"costom-commands",
+					"costom-cmd",
+					"tag"
+				],
+				"args": {
+					"trigger": "Was willst du tun?\n``list`` wenn du alle Befehle sehen willst\n``create`` wenn du eine Befehl erstellen willst\n``remove`` wenn du ein Befehl löschen willst"
+				},
+				"timeout": "Die Zeit ist abgelaufen",
+				"whatshouldcommandname": "Wie lautet der Name des Befehls?\n   Antworte mit ``cancel`` um den Befehl abzubrechen. Der Befehl wird automatisch nach 30 Sekunden abgebrochen.",
+				"commandcanceld": "Befehl abgebrochen",
+				"shouldDMExecutable": "Soll der Befehl in den DM's ausführbar sein, schreib ``true`` wenn ja und ``false`` wenn nein",
+				"whatshouldbotresponse": "Was soll der Bot antworten?\n   Antworte mit ``cancel`` um den Befehl abzubrechen. Der Befehl wird automatisch nach 30 Sekunden abgebrochen.",
+				"alreadyexists": "Es gibt bereits einen Befehl mit dem Namen: ``{commandName}``",
+				"doyouwantcreate": "Willst du wirklich den Befehl erstellen? \n Name:``{guildPrefix}{commadname}`` \n Antwort:``{commandContent}``\nAusführbar in DM's: ``{dm}``",
+				"commandcreated": "Befehl erstellt. \n Name:``{guildPrefix}{commadname}`` \n Antwort:``{commandContent}``\nAusführbar in DM's: ``{dm}``",
+				"commandremoved": "``{guildPrefix}{commadname}`` wurde erfolgreich gelöscht.",
+				"nocommands": "Dieser Server hat keine Custom Commands!",
+				"commanddontexists": "Es gibt keinen Befehl mit diesem Namen",
+				"notbooelan": "Keine richtige Antwort! \nBitte wiederhole den Befehl nochmal, beachte dabei dass du `true` schreiben musst damit der Befehl in den DM's ausführbar sein soll oder `false` wenn er nur auf dem Server ausführbar sein soll!"
+			},
+			"wordfilter": {
+				"name": "wortfilter",
+				"description": "sperre wörter auf diesem server",
+				"aliases": [
+					"wort-filter",
+					"wortsfilter",
+					"worts-filter",
+					"filter-wort",
+					"filterwort",
+					"ban-words"
+				],
+				"args": {
+					"trigger": "Was willst du tun?\n``list`` wenn du alle verbannten Wörter sehen willst\n``create`` wenn du ein verbanntes Wort erstellen willst\n``remove`` wenn du ein verbanntes Wort löschen willst"
+				},
+				"timeout": "Die Zeit ist abgelaufen!",
+				"wordisblocked": "{word} ist ein verbanntes Wort, bitte hör auf es zu benutzen.",
+				"whichword": "Wie lautet das Wort?\n   Antworte mit ``cancel`` um den Befehl abzubrechen. Der Befehl wird automatisch nach 30 Sekunden abgebrochen.",
+				"commandcanceld": "Befehl abgebrochen!",
+				"doyouwantcreate": "Willst du das Wort wirklich hinzufügen? \n Wort:``{word}``",
+				"created": "Wort hinzugefügt. \n Wort:``{word}``",
+				"wordremoved": "Wort wurde erfolgreich gelöscht!",
+				"nowords": "Dieser Server hat keine verbannten Wörter!",
+				"wordnotexists": "Dieses verbannte Wort existiert nicht."
+			},
+			"headline": {
+				"name": "headline",
+				"description": "Erstell ein Bild mit deinem Text",
+				"aliases": [
+					"createimage",
+					"imagecreate",
+					"create-picture",
+					"createpicture",
+					"picture-create",
+					"picturecreate",
+					"headline",
+					"header",
+					"text2image",
+					"texttoimage",
+					"text2picture",
+					"texttopicture",
+					"profilepicture",
+					"pb",
+					"pp",
+					"picture"
+				],
+				"args": {
+					"text": "Gebe den Text ein welcher auf dem Bild stehen soll"
+				},
+				"pleaseuploadimage": "Bitte lade ein Hintergrundbild hoch",
+				"enterY": "Bitte gebe die Y Koordinate des Textes ein.\nAktuell:\nBreite: {width}\nHöhe: {height}",
+				"enterX": "Bitte gebe die X Koordinate des Textes ein.\nAktuell:\nBreite: {width}\nHöhe: {height}",
+				"enterText": "Bitte gebe den neuen Text ein.\nAktueller Text: {text}",
+				"enterFontAndPixels": "Bitte gebe den Stil des Textes ein:\nz.B ``50px font`` oder ``100px Arial``\nAktueller Stil: ``",
+				"enterColor": "Bitte gebe die Farbe des Textes ein.\nAktuelle Farbe: {color}",
+				"pleaseUploadValidImage": "Bitte lade ein richtiges Hintergrundbild hoch.",
+				"notavalidnumber": "Keine richtige Zahl!",
+				"embedDescription": "\n🖼 um das Hintergrundbild zu ändern\n🔤 Um die Text Größe und die Font zu ändern\n🎨 um die Textfarbe zu verändern\n📝 um den Text zu ändern\n🇽 um die X Koordinate vom Text zu ändern\n🇾 um die y Koordinate zu ändern\n ✅ um den Bearbeitungsmodus zu beenden."
+			},
+			"poll": {
+				"name": "abstimmung",
+				"description": "Erstelle eine Abstimmung!",
+				"aliases": [
+					"poll",
+					"voting"
+				],
+				"args": {
+					"title": "Wie lautet der Titel der Abstimmung?",
+					"question": "Wie lautet deine Frage?"
+				},
+				"howtoend": "Eine Abstimmung kannst du beenden mit: \n -end-poll Nachrichtenlink\nBeispiel: ``-end-poll https://discordapp.com/channels/683026970606567440/700597872399220787/747498209319976970``"
+			},
+			"stickyroles": {
+				"name": "stickyroles",
+				"description": "Die Rollen eines Benutzers werden gespeichert und wenn er den Server erneut betritt werden die Rollen wieder hinzugefügt!",
+				"aliases": [
+					"pinned-roles",
+					"sync-roles"
+				],
+				"args": {
+					"stickyroles": "Soll StickyRoles aktiviert werden oder nicht? Schreib ``true`` wenn ja und ``false`` wenn nein"
+				},
+				"howtoend": "Eine Abstimmung kannst du beenden mit: \n -end-poll Nachrichtenlink\nBeispiel: ``-end-poll https://discordapp.com/channels/683026970606567440/700597872399220787/747498209319976970``"
+			},
+			"setdescription": {
+				"name": "setze-beschreibung",
+				"description": "Setze deine eigene Beschreibung",
+				"aliases": [
+					"beschreibung-setzen"
+				],
+				"args": [
+					"Was soll deine Beschreibung sein?"
+				],
+				"sucessfullyset": "Beschreibung wurde erfolgreich gesetzt!"
+			},
+			"support": {
+				"name": "support",
+				"yoursupport": "Hallo\n Das ist dein Support Chat.",
+				"description": "Erstellt ein Support Ticket System.",
+				"reactmsg": "Um Support zu erhalten klick auf die Reaktion ❔.",
+				"created": "{member} hat das support system in {channel} erstellt.",
+				"alreadyticket": "Du hast schon ein support ticket.",
+				"open": "Support Ticket wurde am {datum} geöffnet."
+			}
+		},
+		"util": {
+			"dm": {
+				"name": "dm",
+				"aliases": [
+					"direktnachricht",
+					"directmessage"
+				],
+				"args": {
+					"user": "Welcher Benutzer soll die Nachricht erhalten?",
+					"dmmessage": "Welche Nachricht soll er bekommen?"
+				},
+				"description": "Sende eine Direktnachricht an jemanden",
+				"success": "Direktnachricht erfolgreich gesendet!",
+				"dmClosed": "Die Direktnachrichten von der Person sind geschlossen, Nachricht konnte nicht zugestellt werden!"
+			}
+		},
+		"roster": {
+			"name": "roster",
+			"description": "Erstell eine Liste von Rollen-Mitgliedern",
+			"aliases": [
+				"rolelist",
+				"roles-list",
+				"roleslist",
+				"role-list"
+			],
+			"args": {
+				"roles": "**Geben Sie die Rollen in neuen Zeilen ein **\nSie können einfach den **Namen**, die **ID** oder eine **Erwähnung** eingeben. **Es gibt keine andere Rolle mit demselben genauen Identifikation/Namen**"
+			}
+		},
+		"leave": {
+			"name": "leave",
+			"description": "Setze eine Nachricht die gesendet wird wenn ein Benutzer den Server verlässt!",
+			"aliases": [
+				"leaves",
+				"left",
+				"goodbye"
+			],
+			"args": {
+				"channel": "In welchem Kanal soll die Nachricht gesendet werden?\nWenn nicht schreib `disabled`",
+				"channelText": "Wie soll sich der Benutzer im öffentlichen Kanal verabschieden, wenn er den Server verlässt? \nWenn das Schreiben nicht deaktiviert ist"
+			},
+			"activated": "Nachricht wenn jemand den Server verlässt wird ab sofort in: <# + {channel} + > gesendet\nMit dem Text:\n{text}",
+			"deactivated": "Nachricht wenn jemand den Server verlässt deaktiviert"
+		},
+		"fortnite": {
+			"fn-creative": {
+				"name": "fn-kreativ",
+				"aliases": [
+					"fn-kreativ",
+					"fortnite-kreativ"
+				],
+				"args": {
+					"anzahl": "Wie viele Spieler können mitspielen?",
+					"map": "Auf welcher Map wird gespielt?"
+				},
+				"description": "Erstellt eine kreativ lobby",
+				"players": "Spieler:",
+				"map": "Map:",
+				"title": "Meltic Fortnite Kreativ System",
+				"hoster": "Veranstalter",
+				"start": "``{bot}`` wird gestartet.....",
+				"anschreiben": "**{anzahl}** User erhalten nun weitere Informationen....",
+				"notlinked": "Du bist nicht verknüpft.",
+				"receiveFA": "Du hast eine Freundschaftsanfrage von ``{bot}`` bekommen.",
+				"alreadyFA": "Du hast schon eine Freundschaftsanfrage von ``{bot}`` bekommen.",
+				"autodecline": "Du hast die Freundschaftsanfrage abgelehnt, versichere dich, dass du automatisches ablehnen der Freundschaftsanfrage aus hast",
+				"invite": "Du wurdest von ``{bot}`` eingeladen.",
+				"started": "**{anzahl}** User sind nun in der Lobby, du kannst starten.",
+				"alreadyrunning": "Derzeit läuft gerade eine kreativ runde. Klick auf :x: um diese abzubrechen.",
+				"cancel": "Runde wurde erfolgreich abgebrochen."
+			}
+		},
+		"economy": {
+			"balance": {
+				"name": "kontostand",
+				"aliases": [
+					"balance",
+					"money",
+					"credits",
+					"bal"
+				],
+				"args": {
+					"user": "Von welchem Benutzer willst du den Kontostand sehen?"
+				},
+				"description": "Zeige den Kontostand von dir selber oder einem anderen Benutzer",
+				"balanceMessage": "{user} hat {balance} {currency}"
+			},
+			"leaderboard": {
+				"name": "leaderboard",
+				"aliases": [
+					"eco-leaderboard",
+					"topten",
+					"top-ten",
+					"top-10",
+					"top10",
+					"leaderboard-eco"
+				],
+				"description": "Liste die Top 10 Geldbesitzer auf diesem Server"
+			},
+			"add-balance": {
+				"name": "add-balance",
+				"aliases": [
+					"addbalance",
+					"balance-add",
+					"balanceadd"
+				],
+				"args": {
+					"user": "Welchem Benutzer willst du etwas zu seinem Kontostand hinzufügen?",
+					"amount": "Wie viel willst du hinzufügen?"
+				},
+				"description": "erhöhe den kontostand eines benutzers",
+				"addedMessage": "{user} neuer Kontostand ist {balance} {currency}",
+				"addedMessageTitle": "Kontostand aktualisiert! 💸"
+			},
+			"set-currency": {
+				"name": "set-currency",
+				"aliases": [
+					"setcurrency",
+					"currency-set",
+					"currencyset"
+				],
+				"args": {
+					"currency": "Wie soll deine Serverwährung heißen?"
+				},
+				"description": "Setze die Serverwährung",
+				"success": "Serverwährung wurde zu {currency} gesetzt",
+				"successTitle": "Währung gesetzt!"
+			}
+		}
+	},
+	"general": {
+		"error": "Fehler",
+		"or": "oder",
+		"commando": {
+			"invalidlabel": "Du hast einen ungültige/n {label} eingeben. Bitte versuche es erneut",
+			"cancelcmd": "Gib `cancel` ein, um den Command abzubrechen.",
+			"autocancel": "Der Command wird in {wait} sekunden abgebrochen.",
+			"invokedby": "Ausgeführt von {user}",
+			"internalerror": "Interner Server Fehler: {code}",
+			"reporttodev": "Der Fehler wurde den Entwicklern gemeldet und wird bald behoben",
+			"fatalerror": "FATALER FEHLER",
+			"guildonlydesc": "Der `{name}` Command kann nur auf Servern ausgeführt werden",
+			"guildonly": "Nur Server",
+			"notnsfw": "Kein 18+ (NSFW) Kanal",
+			"notnsfwdesc": "Der `{name}` Command kann nur in 18+ (NSFW) Kanälen ausgeführt werden.",
+			"nopermission": "Keine Berechtigungen",
+			"nopermissiondesc": "Du hast keine Berechtigung den `{name}` Command auszuführen.",
+			"botpermissions": "Bot hat keine Berechtigungen",
+			"botpermissionsOne": "Ich benötige die {permission} Berechtigung, damit der `{name}` Command funktioniert.",
+			"botpermissionsMultiple": "Ich benötige folgende Berechtigung, damit der `{name}` Command funktioniert: {permissions}",
+			"throttled": "Limit erreicht",
+			"throttleddesc": "Du kannst den `{name}` Command erst wieder in {seconds} Sekunden ausführen.",
+			"errordesc": "Fehler: {title}",
+			"owneronly": "Dieser Command kann nur vom Bot Inhaber ausgeführt werden",
+			"devonly": "Dieser Command kann nur von den Bot Entwicklern ausgeführt werden",
+			"missingpermissions": "Du hast nicht die ``{permission}`` Berechtigung.",
+			"multiplemissingpermissions": "Du hast nicht die ``{permissions}`` Berechtigungen."
+		}
+	}
+}

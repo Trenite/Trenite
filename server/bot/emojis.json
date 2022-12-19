@@ -1,0 +1,74 @@
+{
+	"spotify": {
+		"url": "https://cdn.discordapp.com/emojis/690172298346496116.png",
+		"id": "690172298346496116"
+	},
+	"error": {
+		"url": "https://cdn.discordapp.com/emojis/713500900546838640.png",
+		"id": "713500900546838640"
+	},
+	"searching": {
+		"url": "https://cdn.discordapp.com/emojis/713500751350988850.gif",
+		"id": "713500751350988850"
+	},
+	"entersearch": {
+		"url": "https://cdn.discordapp.com/emojis/713500813116309655.gif",
+		"id": "713500813116309655"
+	},
+	"minus": {
+		"url": "https://cdn.discordapp.com/emojis/713501894005227591.png",
+		"id": "713501894005227591"
+	},
+	"success": {
+		"url": "https://cdn.discordapp.com/emojis/714235674533822515.gif",
+		"id": "714235674533822515"
+	},
+	"discordpartner": {
+		"id": "726578354890735647",
+		"url": "https://cdn.discordapp.com/emojis/726578354890735647.png"
+	},
+	"housebrilliance": {
+		"id": "726576631636033537",
+		"url": "https://cdn.discordapp.com/emojis/726576631636033537.png"
+	},
+	"housebravery": {
+		"id": "726576593316610048",
+		"url": "https://cdn.discordapp.com/emojis/726576593316610048.png"
+	},
+	"housebalance": {
+		"id": "726576610869903440",
+		"url": "https://cdn.discordapp.com/emojis/726576610869903440.png"
+	},
+	"hypesquadevents": {
+		"id": "726576631908401222",
+		"url": "https://cdn.discordapp.com/emojis/726576631908401222.png"
+	},
+	"verifieddeveloper": {
+		"id": "726575830427500556",
+		"url": "https://cdn.discordapp.com/emojis/726575830427500556.png"
+	},
+	"verifiedbot": {
+		"id": "748523237243224157",
+		"url": "https://cdn.discordapp.com/emojis/748523237243224157.png"
+	},
+	"supporter": {
+		"id": "726575688798306346",
+		"url": "https://cdn.discordapp.com/emojis/726575830427500556.png"
+	},
+	"bughunterlevel1": {
+		"id": "726577913381650545",
+		"url": "https://cdn.discordapp.com/emojis/726575830427500556.png"
+	},
+	"bughunterlevel2": {
+		"id": "747138716413329538",
+		"url": "https://cdn.discordapp.com/emojis/747138716413329538.png"
+	},
+	"discordemployee": {
+		"id": "726576577235910657",
+		"url": "https://cdn.discordapp.com/emojis/726575830427500556.png"
+	},
+	"earlysupporter": {
+		"id": "726575688798306346",
+		"url": "https://cdn.discordapp.com/emojis/726575688798306346.png"
+	}
+}

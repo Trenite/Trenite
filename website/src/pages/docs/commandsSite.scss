@@ -1,0 +1,62 @@
+.docs-command {
+	padding-left: 1rem;
+
+	.block-title {
+		margin-left: 0 !important;
+
+		&.block-title-large {
+		}
+	}
+
+	.guildsSelectorPage {
+		.list {
+			height: auto;
+			width: auto;
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+
+			.wrapper {
+				margin: 3px 5px;
+
+				.pill {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.card {
+		.card-header {
+			font-size: 25px;
+			text-transform: var(--f7-block-title-large-text-transform);
+			justify-content: flex-start;
+			padding: 1rem;
+
+			i.icon {
+				cursor: pointer;
+				margin-left: 0.5rem;
+				font-size: 20px;
+			}
+		}
+
+		.card-content {
+			.usage {
+				.icon {
+					vertical-align: baseline;
+					cursor: pointer;
+				}
+			}
+			.block-title:first-child {
+				margin-top: 0.5rem;
+			}
+		}
+	}
+}
+.tooltip {
+	.tooltip-content {
+		font-size: 0.8rem;
+		text-align: center;
+	}
+}

@@ -1,0 +1,93 @@
+const commando = require("discord.js-commando");
+const fetch = require("node-fetch");
+const {
+	UserFlags
+} = require("discord.js");
+
+module.exports = class BuyCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "buy",
+			memberName: "buy",
+			aliases: [],
+			group: "economy",
+			description: "Buy Items from Server Item-Shop",
+			examples: [""],
+			clientPermissions: ["SEND_MESSAGES"],
+		});
+	}
+
+	async buyItem(msg) {
+		const guild = msg.guild;
+		const user = msg.author.id;
+		var itemMSG = await msg.reply(
+			"Which item do you want buy?\n    Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.	"
+		);
+		var collected = await msg.channel
+			.awaitMessages((message) => message.author.id === msg.author.id, {
+				max: 1,
+				time: 1000 * 30,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				name.delete();
+				throw new Error("Timeout for command name exceeded");
+			});
+		collected = collected.first();
+		itemMSG.delete();
+		collected.delete();
+		var item = collected.content;
+
+
+		var amountMSG = await msg.reply(
+			"How much do you want to buy?\n    Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.	"
+		);
+		var collected2 = await msg.channel
+			.awaitMessages((message) => message.author.id === msg.author.id, {
+				max: 1,
+				time: 1000 * 30,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				name.delete();
+				throw new Error("Timeout for command name exceeded");
+			});
+		collected2 = collected2.first();
+		amountMSG.delete();
+		collected2.delete();
+		var amount = collected2.content;
+
+		var balance = (this.client.provider.get(guild, "users")) || [];
+		var playerbalance = balance.find((x) => x.discord_id === msg.author.id);
+		if (!playerbalance) playerbalance = {
+			balance: 0
+		};
+		var itemData = this.client.provider.get(guild, "shopItems", item);
+		if (!itemData) throw "There is no Item!"
+		if (playerbalance >= itemData.price) return msg.reply("You dont have enough money!")
+
+		var data = await this.client.provider.get(guild, "users") || [];
+
+		var player = data.find((x) => x.id === user.id);
+		if (!player) {
+			data.push({
+				id: user.id,
+				amount: amount
+			});
+		} else {
+			player.amount + amount;
+		}
+		await this.client.provider.set(guild, item, data);
+	}
+
+	async run(msg, args) {
+		var {
+			client,
+			guild
+		} = msg;
+		var user = msg.author;
+
+		this.buyItem(msg)
+
+	}
+};

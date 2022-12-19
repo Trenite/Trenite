@@ -1,0 +1,30 @@
+const commando = require('discord.js-commando');
+
+module.exports = class StatsCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: 'stats',
+			memberName: 'stats',
+			aliases: [],
+			group: 'fortnite',
+			description: 'Fortnite Stats',
+			examples: ['stats'],
+			guildOnly: true,
+			clientPermissions: ['SEND_MESSAGES'],
+			args: [
+				{
+					key: 'user',
+					prompt: 'Wich user?',
+					type: 'user',
+				},
+			],
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild } = msg;
+		const user = args.user;
+		var stats = client.allUsers.get(user.id, 'fnid');
+		msg.reply(`${user}s Elo: ${stats}`);
+	}
+};

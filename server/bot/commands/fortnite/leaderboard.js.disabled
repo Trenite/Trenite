@@ -1,0 +1,24 @@
+const commando = require('discord.js-commando');
+
+module.exports = class LeaderboardCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: 'leaderboard',
+			memberName: 'leaderboard',
+			aliases: [],
+			group: 'fortnite',
+			description: '1 vs 1 Elo',
+			examples: ['Elo'],
+			guildOnly: true,
+			clientPermissions: ['SEND_MESSAGES'],
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild } = msg;
+
+		var data = client.allUsers.get(user.id, 'elo');
+
+		msg.reply(`${data}`);
+	}
+};

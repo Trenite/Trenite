@@ -1,0 +1,74 @@
+const Commando = require("discord.js-commando");
+const Color = require("color-converter").default;
+
+module.exports = class RainbowCommand extends Commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "rainbow", //lowercase
+			memberName: "rainbow", //lowercase
+			aliases: [],
+			group: "util", // [dev, fortnite, fun, mod, audio, util]
+			description: "Automatically creates a rainbow role, that changes color",
+			examples: ["rainbow"],
+			clientPermissions: ["MANAGE_ROLES"], // https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
+			userPermissions: ["MANAGE_ROLES"],
+			guildOnly: true,
+		});
+		this.client.once(
+			"providerReady",
+			(() => {
+				this.client.guilds.cache.forEach(this.fetch.bind(this));
+			}).bind(this)
+		);
+	}
+
+	async fetch(guild) {
+		try {
+			var active = await this.client.provider.get(guild, "rainbow");
+			if (!active) return;
+			var rainbow = await this.getRole(guild);
+
+			async function edit() {
+				var active = await this.client.provider.get(guild, "rainbow");
+				if (!active) return;
+
+				var color = Color.fromHex(rainbow.hexColor);
+				color.rotate(5);
+				await rainbow.setColor(color.toHex());
+				setTimeout(edit.bind(this), 1200);
+			}
+			edit.call(this);
+		} catch (error) {
+			await this.client.provider.set(guild, "rainbow", false);
+		}
+	}
+
+	async getRole(guild) {
+		var roles = guild.roles.cache.array().sort((a, b) => a.position - b.position);
+		var highest = roles.findIndex((r) => r === guild.me.roles.highest);
+
+		return await this.client.getRole(guild, "rainbow", {
+			position: highest,
+			// hoist: true,
+			color: 65301,
+			permissions: 0,
+		});
+	}
+
+	async run(msg, args) {
+			const { client, guild, member } = msg;
+
+			var active = await client.provider.get(guild, "rainbow");
+			var rainbow = await this.getRole(guild);
+
+			if (active === true) {
+				await client.provider.set(guild, "rainbow", false);
+				msg.reply(`${rainbow} deactived`);
+			} else {
+				member.roles.add(rainbow);
+				await client.provider.set(guild, "rainbow", true);
+				msg.reply(`${rainbow} role activated`);
+				this.fetch(guild);
+			}
+	}
+};

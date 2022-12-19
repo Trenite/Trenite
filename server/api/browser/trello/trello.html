@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-attachment: fixed;
+			}
+
+			#board {
+				display: flex;
+				flex-direction: row;
+				align-items: flex-start;
+			}
+
+			.card {
+				width: 272px;
+				margin: 8px;
+			}
+
+			.list {
+				margin: 0.5rem;
+				background-color: #dfe1e6;
+			}
+
+			.title,
+			.list {
+				border-radius: 0.2rem;
+			}
+
+			.highlight {
+				border: 8px solid red;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+
+			.title {
+				margin: 0;
+				background-color: #dfe1e6;
+				padding: 8px;
+				font-weight: 600;
+				margin: 0.2rem;
+				margin-left: 0.5rem;
+				font-size: 14px;
+				color: #172b4d;
+				font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+					Helvetica Neue, sans-serif;
+			}
+
+			trello-card::part(.card) {
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="board"></div>
+		<script src="script.js"></script>
+	</body>
+</html>

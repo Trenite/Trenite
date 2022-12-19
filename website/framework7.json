@@ -1,0 +1,24 @@
+{
+	"cwd": "/Users/samuel/Documents/Dev/JavaScript/Discord/Bots/Trenite/website2",
+	"type": ["web", "pwa"],
+	"name": "Trenite",
+	"framework": "react",
+	"template": "split-view",
+	"bundler": "webpack",
+	"cssPreProcessor": "scss",
+	"theming": {
+		"customColor": true,
+		"color": "#3d8ff8",
+		"darkTheme": false,
+		"iconFonts": true,
+		"fillBars": false
+	},
+	"customBuild": false,
+	"webpack": {
+		"developmentSourceMap": true,
+		"productionSourceMap": false,
+		"hashAssets": true,
+		"preserveAssetsPaths": false,
+		"inlineAssets": true
+	}
+}

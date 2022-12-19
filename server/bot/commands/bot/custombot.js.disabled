@@ -1,0 +1,159 @@
+const { Command } = require("discord.js-commando");
+const fetch = require("node-fetch");
+const mongoose = require("mongoose");
+const BotModel = mongoose.model("Bot");
+
+module.exports = class CustomBotCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "custombot", //lowercase
+			memberName: "custombot", //lowercase
+			aliases: ["custom-bot", "new-bot", "my-bot", "request-bot", "byob", "byob-bot", "copy-bot"],
+			autoAliases: true,
+			group: "bot", // [dev, fortnite, fun, mod, audio, util, media]
+			description: "Creates you custom copy of the bot, with your profile picture and name",
+			examples: ["custombot NzJ0eXAiOiJKLCJhOiJIUzI1NiJ9.eyJqdGkiOiIyODIwNTQzNy1jNT"],
+			premiumOnly: true,
+			throttling: {
+				usages: 1,
+				duration: 60,
+			},
+		});
+	}
+
+	async run(msg, args, lang) {
+		var { client, author } = msg;
+		var guild = msg.guild;
+
+		var title = lang.title;
+
+		var hasAlreadyABot = await BotModel.findOne({ owner: author.id }).exec();
+		if (hasAlreadyABot && !Client.isDev(author)) {
+			return author.send(lang.alreadyhasbot.replace("{bot}", `<@${hasAlreadyABot._doc.id}>`));
+		}
+
+		var answer = await author.send(lang.wantcreate, {
+			title: "Custom Bot",
+		});
+		author.send(lang.newapplication, {
+			title,
+			embed: {
+				image: {
+					url: "https://i.imgur.com/OPTZiVm.png",
+				},
+			},
+		});
+		author.send(lang.addbot, {
+			title,
+			embed: {
+				image: {
+					url: "https://i.imgur.com/cuzuObH.png",
+				},
+			},
+		});
+		author.send(lang.sendtoken, {
+			title,
+			embed: {
+				image: {
+					url: "https://i.imgur.com/gLUZ1oE.png",
+				},
+			},
+		});
+
+		const { channel } = answer;
+
+		var collected = await channel
+			.awaitMessages((message) => message.author.id === author.id, {
+				max: 1,
+				time: 1000 * 60 * 10,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				throw lang.timeout;
+			});
+		collected = collected.first();
+		if (!collected.content) throw lang.invalidtoken;
+
+		const token = `Bot ${collected.content}`;
+
+		try {
+			var res = await fetch(`${client.options.http.api}/users/@me`, {
+				headers: {
+					Authorization: token,
+				},
+			});
+			res = await res.json();
+		} catch (error) {
+			throw lang.ratelimit;
+		}
+
+		if (res.message) {
+			if (res.message.includes("401")) throw lang.invalidtoken;
+			throw res.message;
+		}
+
+		try {
+			var res = await fetch(`${client.options.http.api}/users/@me/guilds`, {
+				headers: {
+					Authorization: token,
+				},
+			});
+			res = await res.json();
+			if (res.message) throw res.message;
+			if (res.length > 5) throw lang.toomanyserver;
+		} catch (error) {
+			throw lang.ratelimit;
+		}
+
+		const { id, username, avatar, discriminator } = res;
+		const usertag = `${username}#${discriminator}`;
+		const usertext = `<@${id}> [**${usertag}**]`;
+
+		try {
+			Client.bot.server.bots.getBot({ id });
+			throw lang.alreadystarted.replace("{bot}", usertext);
+		} catch (error) {}
+
+		answer = await author.send(lang.valid.replace("{bot}", usertext), {
+			title: lang.custombot,
+			embed: {
+				author: {
+					color: "#00ff00",
+					name: lang.starting,
+					icon_url: client.savedEmojis.searching.url,
+				},
+			},
+		});
+
+		var bot = await client.bot.server.bots.add({ token, id, owner: author.id, admins: [] });
+
+		client.treniteLog(`${author} (${author.tag}) added the custombot ${usertext}`, {
+			title: "Custombot added",
+			embed: {
+				color: "#00ff00",
+				author: {
+					name: bot.Client.user.tag,
+					icon_url: bot.Client.user.displayAvatarURL({ size: 256, format: "png" }),
+				},
+			},
+		});
+		// https://discord.com/api/oauth2/authorize?client_id=${id}&permissions=8&scope=bot
+
+		answer.edit(
+			lang.success
+				.replace("{site}", "https://botclient.tk/")
+				.replace("{bot}", usertext)
+				.replace("{link}", `https://discord.com/api/oauth2/authorize?client_id=${id}&permissions=8&scope=bot`),
+			{
+				title: lang.custombot,
+				embed: {
+					color: "#00ff00",
+					author: {
+						name: lang.started,
+						icon_url: client.savedEmojis.success.url,
+					},
+				},
+			}
+		);
+	}
+};

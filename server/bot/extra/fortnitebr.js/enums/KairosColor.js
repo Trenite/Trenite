@@ -1,0 +1,11 @@
+module.exports = {
+	RED: '["#F16712","#D8033C","#6E0404"]',
+	BLUE: '["#1CA2E6","#0C5498","#081E3E"]',
+	PINK: '["#FFB4D6","#FF619C","#7D3449"]',
+	YELLOW: '["#FFDF00","#FBA000","#975B04"]',
+	GREEN: '["#DFFF73","#86CF13","#404B07"]',
+	LIGHT_BLUE: '["#B4F2FE","#00ACF2","#005679"]',
+	CYAN: '["#8EFDE5","#1CBA9E","#034D3F"]',
+	GRAY: '["#AEC1D3","#687B8E","#36404A"]',
+	PURPLE: '["#B35EEF","#4D1397","#2E0A5D"]',
+};

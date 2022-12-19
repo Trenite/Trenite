@@ -1,0 +1,57 @@
+const commando = require("discord.js-commando");
+
+const fs = require("fs");
+const packageFile = __dirname + "/../../../package.json";
+var packagejson = fs.readFileSync(packageFile);
+
+module.exports = class ChangelogsSendCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "changelogs-send",
+			memberName: "changelogs-send",
+			aliases: [],
+			group: "dev",
+			description: "Report a User.",
+			examples: ["changelogs-send"],
+			devOnly: true,
+			args: [
+				{
+					key: "infos",
+					prompt: "What is new?",
+					type: "string",
+					wait: 120,
+				},
+			],
+		});
+	}
+
+	async run(msg, args) {
+		const { guild, channel, client } = msg;
+		const { infos } = args;
+		var length = 0;
+		var messages = [];
+
+		var oldDB = this.client.provider.get("global", "changelogs") || [];
+		var ChangeDBobj = {
+			version: packagejson.version,
+			date: Date.now(),
+			changelog: infos,
+		};
+		var newDB = oldDB.push(ChangeDBobj);
+		this.client.provider.set("global", "changelogs", newDB);
+
+		client.guilds.cache.forEach(async (guild) => {
+			try {
+				var channeldb = await client.provider.get(guild, "changelogs");
+				if (!channeldb) return;
+				const news = await commando.createMessage(guild, infos, {
+					title: "Changelogs:",
+				});
+				const channel1 = client.channels.resolve(channeldb);
+				channel1.send(news);
+			} catch (error) {
+				msg.reply(`Error sending changelogs because of ${error}`);
+			}
+		});
+	}
+};

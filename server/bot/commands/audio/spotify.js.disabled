@@ -1,0 +1,72 @@
+const { Command } = require("discord.js-commando");
+const { Readable } = require("stream");
+const atob = require("atob");
+
+module.exports = class SpotifyCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "spotify", //lowercase
+			memberName: "spotify", //lowercase
+			aliases: [],
+			group: "audio", // [dev, fortnite, fun, mod, audio, util]
+			description: "Links a spotify account with the music bot",
+			examples: ["spotify"],
+			userPermissions: ["SPEAK", "CONNECT"],
+			clientPermissions: ["SEND_MESSAGES", "SPEAK", "CONNECT"], // https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
+		});
+		client.once(
+			"providerReady",
+			(() => {
+				client.server.on("oauth2#spotify", this.login);
+			}).bind(this)
+		);
+		var i = 0;
+		var j = 0;
+		this.readable = new Readable();
+		var self = this;
+		this.readable._read = function () {
+			client.server.on("audio", this.stream.bind(this));
+		};
+	}
+
+	stream(buffer) {
+		console.log(buffer);
+
+		var res = this.readable.push(buffer);
+		if (!res) console.log({ buffer, readable: this.readable });
+	}
+
+	base64ToArrayBuffer(base64) {
+		var binary_string = atob(base64);
+		var len = binary_string.length;
+		var bytes = new Uint8Array(len);
+		for (var i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
+		return bytes.buffer;
+	}
+
+	async login(object) {
+		console.log(object);
+	}
+
+	async run(msg, args) {
+			var { client, guild, author, member } = msg;
+
+			try {
+				var voice = await member.voice.channel.join();
+			} catch (error) {
+				throw "Join a voice channel first";
+			}
+
+			await client.server.browser.spotify.getAudio({
+				id: author.id,
+			});
+
+			voice.play(this.readable, { type: "webm/opus" });
+
+			const redirect = `https://${client.bot.config.api.domain}/api/redirect/spotify/${author.id}`;
+
+			msg.member.send(redirect, { title: "Spotify" });
+	}
+};

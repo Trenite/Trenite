@@ -1,0 +1,105 @@
+const Commando = require("discord.js-commando");
+const fetch = require("node-fetch");
+
+module.exports = class RainbowSixSiegeCommand extends Commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "rainbowsix", //lowercase
+			memberName: "rainbowsix", //lowercase
+			aliases: ["rbs", "rainbowsixsiege", "rb", "rb6", "r6"],
+			group: "games", // [dev, fortnite, fun, mod, audio, util]
+			description: "Displays/Setups the Rainbow Six Siege News",
+			examples: ["rbs #channel"],
+			userPermissions: ["SEND_MESSAGES"],
+			guildOnly: true,
+			// if no args, delete the object COMPLETLY
+			args: [
+				{
+					key: "channel",
+					prompt: "Setup the news for Rainbow Six Siege channel",
+					type: "text-channel",
+					default: "disabled", // standard value, if nothing is given, delete it if the arg is required
+				},
+			],
+		});
+		this.lastNews = null;
+		this.newsInterval = this.client.setInterval(this.news.bind(this), 1000 * 60 * 60); // every hour
+		this.news(true);
+	}
+
+	async news(init = false) {
+		const res = await fetch(
+			"https://www.ubisoft.com/api/updates/items?categoriesFilter=all&limit=1&mediaFilter=all&locale=en-gb&fallbackLocale=en-gb&tags=BR-rainbow-six GA-siege",
+			{
+				headers: {
+					"User-Agent": "Trenite Discord",
+				},
+			}
+		);
+		const { items } = await res.json();
+		const item = items[0];
+		if (JSON.stringify(this.lastNews) !== JSON.stringify(item)) {
+			this.lastNews = item;
+			if (!init) {
+				this.client.guilds.cache.forEach(async (guild) => {
+					var channel = await this.client.provider.get(guild, "rbs");
+					if (channel) {
+						channel = guild.channels.resolve(channel);
+						if (channel) {
+							this.send(channel);
+						}
+					}
+				});
+			}
+		}
+	}
+
+	async send(channel) {
+		const { type, title, thumbnail, button, abstract, date } = this.lastNews;
+
+		const url = "https://www.ubisoft.com/de-de/game/rainbow-six/siege" + button.buttonUrl;
+
+		channel.send({
+			title: "Rainbow Six Siege " + type,
+			embed: {
+				image: thumbnail,
+				url,
+				timestamp: new Date(date),
+				fields: {
+					name: "Description",
+					value: abstract,
+				},
+			},
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild, member } = msg;
+		var { channel } = args;
+
+		if (channel === "disabled") {
+			channel = null;
+		}
+
+		if (channel) {
+			if (member.hasPermission("MANAGE_CHANNELS")) {
+				if (channel.permissionsFor(member).has("SEND_MESSAGES")) {
+					await this.client.provider.set(guild, "rbs", channel.id);
+					channel.send("This is now the Rainbow Six Siege news channel", {
+						title: "Rainbow Six Siege news",
+					});
+					this.client.log(guild, `Rainbow Six Siege news channel successfully set to ${channel}`);
+					return;
+				} else {
+					return msg.reply(
+						`Sorry you need the SEND_MESSAGES permissions in ${channel} to setup a news channel`
+					);
+				}
+			} else {
+				return msg.reply("Sorry you need the MANAGE_CHANNELS permissions to setup a news channel");
+			}
+		} else {
+			this.send(msg.channel);
+		}
+	}
+};

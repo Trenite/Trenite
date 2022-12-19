@@ -1,0 +1,43 @@
+const assert = require("assert");
+const test = require("../discord-test.js");
+
+describe("clear command", () => {
+	function sendMsg(count = 1) {
+		var waitFor = [];
+		for (var i = 0; i < count; i++) {
+			waitFor.push(test.send("to be cleared msg", false));
+		}
+		return Promise.all(waitFor);
+	}
+
+	beforeEach(() => {
+		return sendMsg();
+	});
+	it("should return no errors for 2 msgs", async () => {
+		var events = test.waitFor("messageDeleteBulk");
+		var answer = await test.send("clear 2");
+		events = await events;
+
+		assert.equal(answer.embeds[0].title, "Clear");
+		assert.equal(events.size, 2);
+	});
+	it("should return a error for 1 msg", async () => {
+		var answer = await test.send("clear 1");
+
+		assert(answer.embeds[0].description.includes("Please enter a number above or exactly 2."));
+		await test.send("cancel", false);
+	});
+	if (false) {
+		// test dauert zu lange
+		it("should delete all msg over 100", async function () {
+			this.timeout(1000 * 60 * 5);
+			await sendMsg(100);
+			var result = await Promise.all([test.send("clear 101"), test.waitFor("messageDeleteBulk")]);
+			var answer = result[0];
+			var events = result[1];
+
+			assert.equal(answer.embeds[0].title, "Clear");
+			assert.equal(events.size, 101);
+		});
+	}
+});

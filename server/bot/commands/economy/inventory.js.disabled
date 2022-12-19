@@ -1,0 +1,39 @@
+const commando = require("discord.js-commando");
+const fetch = require("node-fetch");
+const {
+	UserFlags
+} = require("discord.js");
+
+module.exports = class InventoryCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "inventory",
+			memberName: "inventory",
+			aliases: [],
+			group: "economy",
+			description: "List your inventory",
+			examples: [""],
+			clientPermissions: ["SEND_MESSAGES"],
+		});
+	}
+
+	async listInventory(msg) {
+		const guild = msg.guild;
+		const user = msg.author.id;
+
+		var itemData = this.client.provider.get(guild, "shopItems");
+		if (!itemData) throw "There is no Item!"
+		msg.reply("Your items: \n" + JSON.stringify(itemData));
+	}
+
+	async run(msg, args) {
+		var {
+			client,
+			guild
+		} = msg;
+		var user = msg.author;
+
+		this.listInventory(msg)
+
+	}
+};

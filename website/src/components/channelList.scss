@@ -1,0 +1,14 @@
+.channeldropdown {
+	.menu-inner {
+		min-width: 200px;
+		display: inline-flex;
+
+		.menu-item {
+			width: 100%;
+
+			.menu-item-content {
+				padding-right: 38px;
+			}
+		}
+	}
+}

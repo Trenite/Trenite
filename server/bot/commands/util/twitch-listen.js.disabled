@@ -1,0 +1,88 @@
+const ytdl = require("youtube-dl");
+const commando = require("discord.js-commando");
+const m3u8stream = require("m3u8stream");
+const channels = {};
+
+module.exports = class TwitchListenCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "twitch-listen",
+			memberName: "twitch-listen",
+			aliases: ["listen-twitch", "twitchlisten", "listentwitch"],
+			group: "util",
+			description: "Listen a twitch stream.",
+			examples: ["twitch"],
+			guildOnly: true,
+			clientPermissions: ["SEND_MESSAGES"],
+			args: [
+				{
+					key: "name",
+					prompt: "Twitch Name",
+					type: "string",
+				},
+			],
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild } = msg;
+		const message = msg;
+		const name = args.name;
+
+		if (name === "stop") {
+			delete channels[message.member.voice.channel];
+			msg.reply("Stopped listening");
+			return message.member.voice.channel.leave();
+		}
+
+		if (!message.member.voice.channel)
+			return await msg.reply("you are not in a voice channel. Join a voice channel and try again.");
+		if (!message.member.voice.channel.joinable) return await msg.reply("I can't join that");
+		if (channels[message.member.voice.channel])
+			return msg.reply("I am already streaming something in this channel. Try `twitch stop` first.");
+		if (message.guild.voiceConnection)
+			return msg.reply("I am already playing something in this guild. Try `twitch stop` first.");
+		//  if (config.blacklist.indexOf(args[1]) > -1) return mreply("that channel has been blacklisted.");
+
+		channels[message.member.voice.channel] = {};
+
+		var yt = ytdl("https://twitch.tv/" + name, ["-x"]);
+
+		yt.on("info", async (i) => {
+			let cx;
+
+			try {
+				cx = await message.member.voice.channel.join();
+			} catch (e) {
+				msg.reply("I could not join that channel!");
+				delete channels[message.member.voice.channel];
+				return;
+			}
+
+			channels[message.member.voice.channel].user = message.member;
+			channels[message.member.voice.channel].info = i;
+			channels[message.member.voice.channel].stream = m3u8stream(i.url);
+			var l = await cx.play(channels[message.member.voice.channel].stream);
+			l.on("end", () => {
+				channels[message.member.voice.channel].stream.end();
+				message.member.voice.channel.leave();
+				delete channels[message.member.voice.channel];
+			});
+
+			try {
+				await message.reply("▶ Now playing " + i.uploader + ": " + i.description);
+			} catch (e) {
+				console.log("[warn] " + e.message + " // " + message.channel);
+			}
+
+			console.log("[info] " + message.guild.name + " (" + message.author.tag + ") is listening to " + i.uploader);
+		});
+
+		yt.on("error", async (e) => {
+			msg.channel.send("Sorry a internal server error occured. Twitch probably changed their api");
+			console.log("twitch-listen error:", e);
+			delete channels[message.member.voice.channel];
+			message.member.voice.channel.leave();
+		});
+	}
+};

@@ -1,0 +1,81 @@
+.roledropdown {
+	border: 1px solid rgba(32, 34, 37, 0.5);
+	border-radius: 3px;
+	transition: border 0.15s ease 0s;
+	background-color: #313338;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px var(--f7-menu-item-padding-horizontal);
+	margin-left: var(--f7-menu-item-spacing);
+	margin-right: var(--f7-menu-item-spacing);
+	min-height: 44px;
+	flex-wrap: wrap;
+
+	&:hover,
+	&.menu-item-dropdown-opened {
+		border-color: rgba(0, 0, 0, 0.6);
+		.menu-item-content:after {
+			opacity: 1;
+			color: #f6f6f7;
+		}
+	}
+
+	.role {
+		display: flex;
+		align-items: center;
+		margin: 0 5px;
+		border: 1px solid currentColor;
+		padding: 4px;
+		border-radius: 11px;
+		font-size: 12px;
+		height: 22px;
+		margin: 5px;
+		min-width: 22px;
+		justify-content: center;
+
+		&:hover {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.circle .hover {
+				display: inline-block;
+			}
+		}
+
+		.circle {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: currentColor;
+			content: "";
+			margin-right: 4px;
+			cursor: pointer;
+
+			.hover {
+				display: none;
+			}
+		}
+
+		.text {
+			font-weight: 600;
+			color: rgb(215, 216, 217);
+		}
+	}
+}
+
+.roleListPopover {
+	.popover-angle {
+		display: none;
+	}
+
+	.list {
+		max-height: 50vh;
+		li label {
+			flex-direction: row-reverse;
+		}
+	}
+}

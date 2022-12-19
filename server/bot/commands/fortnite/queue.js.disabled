@@ -1,0 +1,217 @@
+const commando = require("discord.js-commando");
+
+module.exports = class queueCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "queue",
+			memberName: "queue",
+			aliases: [],
+			group: "fortnite",
+			description: "Setup the Fortnite 1vs1 queue",
+			examples: ["queue"],
+			guildOnly: true,
+			userPermissions: ["ADMINISTRATOR"],
+		});
+		this.emoji = "⚔️";
+
+		this.client.on("presenceUpdate", this.presenceUpdate.bind(this));
+
+		this.client.once(
+			"providerReady",
+			(() => {
+				this.client.guilds.cache.forEach(this.fetch.bind(this));
+			}).bind(this)
+		);
+	}
+
+	async presenceUpdate(oldPresence, presence) {
+		if (!oldPresence) return;
+		var guild = presence.guild;
+		if (
+			(oldPresence.status !== "offline" && presence.status === "offline") ||
+			(oldPresence.game && !presence.game)
+		) {
+			// if (member.presence.game.name === 'Fortnite') {}
+			var waiting = this.getWaiting(guild);
+			if (waiting.find((wait) => wait.user === presence.member.id)) {
+				await this.removeWaiting(guild, presence.member.id);
+				presence.member.send(
+					"",
+					commando.createMessage(
+						guild,
+						"You were removed of the queue, because you aren't playing any Game or went offline.",
+						{
+							title: "Queue: Removed",
+						}
+					).options
+				);
+				this.match.bind(this)(guild);
+			}
+		}
+	}
+
+	async removeWaiting(guild, id) {
+		var waiting = this.getWaiting(guild);
+		waiting = waiting.filter((wait) => wait.user != id);
+		this.client.provider.set(guild, "queue", waiting);
+		var queue = await this.getQueue(guild);
+		if (queue) {
+			try {
+				queue.edit("", await this.createMessage(guild));
+			} catch (error) {}
+			var reaction = queue.reactions.get(this.emoji);
+			if (reaction) {
+				reaction.remove(id);
+			}
+		}
+		return waiting;
+	}
+
+	async createMessage(guild) {
+		var waiting = this.getWaiting(guild);
+		var fields = [];
+
+		waiting.forEach((user) => {
+			var member = guild.member(user.user);
+			fields.push({
+				value: "<@" + member.user.id + ">",
+				name: "Elo: " + user.elo,
+				inline: true,
+			});
+		});
+
+		return commando.createMessage(guild, "React to enque", {
+			title: "Queue",
+			split: true,
+			embed: {
+				fields,
+			},
+		}).options;
+	}
+
+	async getQueue(guild) {
+		var queueMsg = await this.client.provider.get(guild, "queueMsg");
+		var queueChannel = await this.client.provider.get(guild, "queueChannel");
+
+		if (queueMsg && queueChannel) {
+			queueChannel = guild.channels.resolve(queueChannel);
+			if (queueChannel) {
+				return queueChannel.messages.fetch(queueMsg);
+			}
+		}
+	}
+
+	async fetch(guild) {
+		var queue = await this.getQueue(guild);
+		if (!queue) return;
+		var botId = this.client.user.id;
+		var emoji = this.emoji;
+		var myElo;
+
+		var collector = queue.createReactionCollector((reaction, user) => {
+			return reaction.emoji.name === emoji && user.id != botId;
+		}, {});
+
+		this.match(guild);
+
+		collector.on("collect", (reaction, user) => {
+			var waiting = this.getWaiting(guild);
+			if (!waiting.find((x) => x.user == user.id)) {
+				waiting.push({ user: user.id, elo: this.getUser(user.id) });
+				this.client.provider.set(guild, "queue", waiting);
+				this.match(guild);
+			} else {
+				user.send(
+					commando.createMessage(guild, "Error: Queue", {
+						title: "You are already in the Queue",
+						content: "",
+					}).options
+				);
+			}
+		});
+
+		collector.on("remove", async (reaction, user) => {
+			if (!user) return;
+			await this.removeWaiting(guild, user.id);
+			this.match(guild);
+		});
+	}
+
+	async match(guild) {
+		var emoji = this.emoji;
+		var waiting = this.getWaiting(guild);
+		var queue = await this.getQueue(guild);
+		if (!queue) return;
+		try {
+			queue
+				.edit("", await this.createMessage(guild))
+				.then(() => {})
+				.catch(() => {});
+		} catch (error) {}
+		if (waiting.length <= 0) return;
+
+		// var user1 = waiting[waiting.length - 1].user;
+		// user1 = guild.member(user1);
+		// guild.fetchMember(user1.id, true);
+
+		// waiting = await this.removeWaiting(guild, user1.id);
+
+		// user1.send(
+		// 	commando.createMessage(guild, 'Match found', {
+		// 		title: 'Queue Match',
+		// 		content: ''
+		// 	}).options
+		// );
+	}
+
+	getUser(id) {
+		var elo = this.client.allUsers.get(id, "elo");
+		if (elo) {
+			return elo;
+		}
+
+		var elo = 0;
+		this.client.allUsers.set(id, "elo", elo);
+		return elo;
+	}
+
+	getWaiting(guild) {
+		var waiting = this.client.provider.get(guild, "queue");
+		if (!waiting) {
+			this.client.provider.set(guild, "queue", []);
+			waiting = [];
+		} else {
+		}
+		// waiting.sort((a, b) => a.elo - b.elo - myElo);
+		return waiting;
+	}
+
+	async run(msg, args) {
+		var guild = msg.guild;
+		var channel = msg.channel;
+		var queueMsg = await this.client.provider.get(guild, "queueMsg");
+		var queueChannel = await this.client.provider.get(guild, "queueChannel");
+
+		if (queueMsg && queueChannel) {
+			queueChannel = guild.channels.resolve(queueChannel);
+			if (queueChannel) {
+				try {
+					queueChannel.messages
+						.fetch(queueMsg)
+						.then((queueMsg) => {
+							queueMsg.delete();
+						})
+						.catch(() => {});
+				} catch (error) {}
+			}
+		}
+
+		var waiting = this.getWaiting(guild);
+
+		var queue = await msg.reply(this.createMessage(guild));
+		queue.react(this.emoji);
+		this.client.provider.set(guild, "queueMsg", queue.id);
+		this.client.provider.set(guild, "queueChannel", channel.id);
+		this.fetch(guild);
+	}
+};

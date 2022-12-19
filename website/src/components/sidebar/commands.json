@@ -1,0 +1,12 @@
+[
+	{
+		"category": "setup",
+		"name": "🛠️ • Setup",
+		"commands": [{ "name": "welcome" }]
+	},
+	{
+		"category": "util",
+		"name": "🔨 • Utility",
+		"commands": [{ "name": "bulk" }]
+	}
+]

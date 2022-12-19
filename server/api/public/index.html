@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>Spotify Web Playback SDK Quick Start Tutorial</title>
+		<style>
+			button {
+				padding: 1rem;
+				background-color: cornflowerblue;
+				color: white;
+				border: none;
+				outline: none;
+				font-size: large;
+				text-transform: capitalize;
+				cursor: pointer;
+			}
+
+			.center {
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				margin: 3rem 10rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="center">
+			<h1>Trenite</h1>
+			<h2>Music Bot</h2>
+			<h3>Gehe auf Spotify und wähle Trenite als Abspielgerät aus</h3>
+			<button onclick="test()">Start playback</button>
+			<br />
+			<br />
+
+			<div>
+				Status:
+				<span id="status">
+					Logging in ...
+				</span>
+			</div>
+		</div>
+
+		<script src="https://sdk.scdn.co/spotify-player.js"></script>
+		<script>
+			console.log("loaded");
+			var token;
+			var t = {};
+			location.search
+				.slice(1)
+				.split("&")
+				.map((x) => x.split("="))
+				.forEach((x) => {
+					t[x[0]] = x[1];
+				});
+
+			if (Object.keys(t).length) {
+				token = t.token;
+			} else {
+				token =
+					"BQAO2SVgu2suohHKQg9imRu78XZyZqwxX1OjNOC7XQyShmpoprfvrwQxcm37p1TkSVLy5PXCZcpnNkoL17PV9PLOMGwUajmeD3WbX42_ICv6On2hM79W1intpDTqgC0q3FD2DInMbpKRtWvlrUEqG3EfESfb9Goa4Wmwcq9VoP3R8A";
+			}
+
+			function test() {
+				fetch("https://api.spotify.com/v1/me/player", {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token,
+					},
+					method: "PUT",
+
+					body: JSON.stringify({ device_ids: [window.device_id], play: true }),
+				}).then(() => {
+					return fetch("https://api.spotify.com/v1/me/player/play?device_id=" + window.device_id, {
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + token,
+						},
+						method: "PUT",
+						body: JSON.stringify({}),
+					});
+				});
+			}
+
+			window.onSpotifyWebPlaybackSDKReady = () => {
+				console.log("webapi ready");
+
+				const player = new Spotify.Player({
+					name: "Trenite",
+					getOAuthToken: (cb) => {
+						cb(token);
+					},
+				});
+
+				// Error handling
+				player.addListener("initialization_error", ({ message }) => {
+					console.error(message);
+					document.querySelector("#status").innerHTML = "Error: " + message;
+				});
+				player.addListener("authentication_error", ({ message }) => {
+					console.error(message);
+					document.querySelector("#status").innerHTML = "Error: " + message;
+				});
+				player.addListener("account_error", ({ message }) => {
+					console.error(message);
+					document.querySelector("#status").innerHTML = "Error: " + message;
+				});
+				player.addListener("playback_error", ({ message }) => {
+					console.error(message);
+					document.querySelector("#status").innerHTML = "Error: " + message;
+				});
+
+				// Playback status updates
+				player.addListener("player_state_changed", (state) => {
+					if (!state) return;
+					console.log(state);
+					document.querySelector("#status").innerHTML = state.paused ? "Paused" : "Playing";
+				});
+
+				// Ready
+				player.addListener("ready", ({ device_id }) => {
+					console.log("Ready with Device ID", device_id);
+					window.device_id = device_id;
+					document.querySelector("button").click();
+					document.querySelector("#status").innerHTML = "Ready";
+				});
+
+				// Not Ready
+				player.addListener("not_ready", ({ device_id }) => {
+					console.log("Device ID has gone offline", device_id);
+					document.querySelector("#status").innerHTML = "Offline";
+				});
+
+				// Connect to the player!
+				player.connect();
+			};
+		</script>
+	</body>
+</html>

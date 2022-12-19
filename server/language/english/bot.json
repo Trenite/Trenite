@@ -1,0 +1,26 @@
+{
+	"commands": {
+		"audio": {
+			"music": {
+				"empty": "Empty",
+				"entersearch": "YouTube/Spotify link/search ...",
+				"examples": "React with:\n⏯ to pause and resume\n⏹ to clear the queue\n⏮ to skip back to the previous song\n⏭ to skip\n🔀 to shuffle the queue\n🔁 to repeat the queue\n🔂 to hear the song in continuous loop\n🔎 to search for song (spotify, youtube)\n🔉 to turn down the volume\n🔊 to turn up the volume\n<:spotify:690172298346496116> to sync your spotify account and hear it in discord with your friends",
+				"live": "live",
+				"loop": "Loop song",
+				"nopermission": "I need the permissions to join and speak in your voice channel",
+				"novoicechannel": "You need to be in a voice channel to play music!",
+				"paused": "Paused",
+				"playing": "Playing",
+				"playlistnotfound": "Couldn't find playlist",
+				"repeat": "Repeat queue",
+				"songnotfound": "song not found",
+				"time": "Time",
+				"voicechannel": "Voicechannel",
+				"volume": "Volume"
+			}
+		}
+	},
+	"general": {
+		"error": "Error"
+	}
+}

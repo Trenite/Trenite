@@ -1,0 +1,9 @@
+{
+	"diff": true,
+	"extension": ["js"],
+	"package": "./package.json",
+	"timeout": 15000,
+	"exit": true,
+	"checkLeaks": false,
+	"global": ["userBot"]
+}

@@ -1,0 +1,44 @@
+const commando = require("discord.js-commando");
+const fetch = require("node-fetch");
+
+module.exports = class TranslateCommand extends commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "translate",
+			memberName: "translate",
+			aliases: [],
+			group: "util",
+			description: "Translates to specified language",
+			examples: ["`$translate [language]:[message to translate]`"],
+			clientPermissions: ["SEND_MESSAGES"],
+			ownerOnly: true,
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild } = msg;
+		// $funtrans yoda:fun
+		// let ar = msg.content.split(":")
+		// let req = await this.requestTranslation(args[0], ar[1]);
+
+		msg.reply({
+			embed: {
+				author: {
+					icon_url: client.user.displayAvatarURL,
+					name: "Disabled", //req.contents.translation
+				},
+				description: "Translation is currently disabled due to unexpected API-issues",
+				// fields: [
+				// 	{
+				// 		name: "Before",
+				// 		value: req.contents.text
+				// 	},
+				// {
+				// 	name: "After",
+				// 	value: req.contents.translated
+				// },
+				// ]
+			},
+		});
+	}
+};

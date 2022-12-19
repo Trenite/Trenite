@@ -1,0 +1,1 @@
+{"version":3,"sources":["css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src!./node_modules/sass-loader/dist/cjs.js!./src/pages/guild/commands/command.scss"],"names":[],"mappings":"AAAA,gBAAgB,YAAA,CAAa,6BAAA","file":"16.28a68d.css","sourcesContent":[".command .title{display:flex;justify-content:space-between}\n"]}

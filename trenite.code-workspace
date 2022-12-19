@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "server"
+		},
+		{
+			"path": "website"
+		},
+		{
+			"path": "server/node_modules/discord.js"
+		},
+		{
+			"path": "server/node_modules/discord.js-commando"
+		},
+		{
+			"path": ".github"
+		},
+		{
+			"path": "docs"
+		},
+		{
+			"path": "stats"
+		},
+		{
+			"path": "extra"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "server",
+		"liveServer.settings.port": 3002
+	}
+}

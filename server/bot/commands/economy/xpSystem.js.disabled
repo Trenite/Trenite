@@ -1,0 +1,69 @@
+const { Command } = require("discord.js-commando");
+const { channels } = require("../../ressources/wordsToFilter.json");
+const configer = {
+	xppermsg: 10,
+	xpforfirstLvl: 1000,
+	multiplier: 3
+};
+
+
+module.exports = class TemplateCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "xp", //lowercase
+			memberName: "xp", //lowercase
+			aliases: [],
+			group: "economy", // [audio, bot, dev, economy, fortnite, fun, games, media, minecraft, mod, nsfw, setup, stats, util]
+			description: "xp-system",
+			examples: [""],
+			userPermissions: ["SEND_MESSAGES"],
+			clientPermissions: ["SEND_MESSAGES"],
+			guildOnly: true,
+			devOnly: true,
+		});
+	}
+
+	/*
+	oldway: 
+
+    lvl for xp calc:
+    	- Math.log(xp/100)/Math.log(1+(60/100))
+    example:
+    	- get XP for a certain lvl:
+    		- baseXP * (1+ (prozentMehrProLVL/100) ) ^ LVL)
+    		
+    		- 100*((1+(5/100))**10) | erstes Lvl benötigt 100xp, 60% mehr xp pro LVL, berechnen für 10lvl
+    	- get LVL for a certian xp
+    		- Math.log(xp/basexp)/Math.log(1+(prozentMehrProLVL/100))
+
+    		- Math.log(10995/100)/Math.log(1+(60/100)) | xp, 60% mehr pro lvl
+    */
+
+	/*
+	newway:
+
+	lvl for xp calc:
+		- base f{x}: x^{3}+1000
+
+		get XP for a certain lvl:
+			- ((lvl**3)+(1000))
+		get LVL for a certain xp:
+			- ((lvl**3))+(1000))
+	*/
+	
+	async checkForLVLup(){
+		xp = ("");
+	};
+
+	async onMessage(msg) {
+		if (msg.author.id === this.client.user.id) return;
+		if (msg.channel.id === 0) return;
+		if (!msg.guild) return; //exluce dm-channels
+		for (const x in channels) { if (msg.channel.name == channels[x]) return; } //exclude channels with known bot association (bot-spam, commands)
+	}
+
+	async run(msg, args) {
+		//rank card here @conner
+		throw "Command isnt finished yet :)";
+	}
+};

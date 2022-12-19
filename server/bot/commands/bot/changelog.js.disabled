@@ -1,0 +1,43 @@
+const commando = require("discord.js-commando")
+
+module.exports = class ChangelogCommand extends commando.Command {
+    constructor(client) {
+        super(client, {
+            name: "changelogs",
+            memberName: "changelogs",
+            aliases: [
+                "change-log",
+                "change-list",
+                "changelist",
+                "list-changes",
+                "listchanges",
+            ],
+            group: "bot",
+            description: "Sends the latest changelogs of the bot",
+            examples: ["changelogs"],
+            guildOnly: true,
+            userPermissions: ["SEND_MESSAGES"],
+            clientPermissions: ["SEND_MESSAGES"],
+        })
+    }
+
+    async run(msg, args) {
+        var { channel } = msg,
+            sMessage = ""
+
+        var changelogs = this.client.provider.get("global", "changelogs")
+        if (!changelogs) {
+            channel.send("No Changelog in the Database")
+        } else {
+            var sorted = changelogs.sort((a) => a.version)
+
+            sorted
+                .filter((x) => x.version === sorted[0].version)
+                .forEach((x) => {
+                    sMessage += `**${x.version} - ${x.date}\n${x.changelog}\n\n`
+                })
+
+            channel.send(sMessage, { title: "Changelog" })
+        }
+    }
+}

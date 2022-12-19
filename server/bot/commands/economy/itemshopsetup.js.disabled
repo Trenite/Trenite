@@ -1,0 +1,188 @@
+const {
+	Command,
+	CommandDispatcher
+} = require("discord.js-commando");
+const {
+	connect
+} = require("mongoose");
+
+module.exports = class ItemShopSetupCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: "shopsetup", //lowercase
+			memberName: "shopsetup", //lowercase
+			aliases: [],
+			group: "economy", // [dev, fortnite, fun, mod, audio, util, media, bot]
+			description: "Setup the Item Shop",
+			examples: [],
+			userPermissions: ["ADMINISTRATOR"],
+			clientPermissions: ["SEND_MESSAGES"], // https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS
+			guildOnly: true,
+			// if no args, delete the args object COMPLETLY
+			args: [{
+				key: "trigger",
+				prompt: "What do you want to do?\n``list`` if you want to see all the shop items\n``create`` if you want to create a shop item\n``remove`` if you want to remove a shop item",
+				type: "string",
+				validate(text) {
+					return ["list", "create", "remove"].includes(text);
+				},
+			}, ],
+		});
+	}
+
+	async newShopItem(msg, shopitems) {
+		var {
+			guild
+		} = msg;
+		var name = await msg.reply(
+			"What should the Item?\n    Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.	"
+		);
+		var collected = await msg.channel
+			.awaitMessages((message) => message.author.id === msg.author.id, {
+				max: 1,
+				time: 1000 * 30,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				name.delete();
+				throw new Error("Timeout for command name exceeded");
+			});
+		collected = collected.first();
+		name.delete();
+		collected.delete();
+		var nameText = collected.content;
+
+		if (collected.content === "cancel") {
+			return msg.reply("Command Canceled").then((x) => x.delete({
+				timeout: 3000
+			}));
+		}
+		var content = await msg.reply(
+			"What should the item price?\n 	Respond with ``cancel`` to cancel the command. The command will automatically be cancelled in 2 minutes."
+		);
+		var collected = await msg.channel
+			.awaitMessages((message) => message.author.id === msg.author.id, {
+				max: 1,
+				time: 1000 * 60 * 2,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				throw new Error("Timeout for command response exceeded");
+			});
+		collected = collected.first();
+
+		if (!collected.content) return;
+		var contentText = collected.content;
+		content.delete();
+		collected.delete();
+
+		if (collected.content === "cancel") {
+			return msg.reply("Command Canceled").then((x) => x.delete({
+				timeout: 3000
+			}));
+		}
+		const newShopItemMSG = await msg.reply(
+			"Do you want to create a Shop-Item? \n Item:``" + nameText + "`` \n Price:``" + contentText + "``", {
+				title: "Shop-Item:",
+			}
+		);
+		newShopItemMSG.react("✅");
+		newShopItemMSG.react("❌");
+		var collected = await newShopItemMSG
+			.awaitReactions(
+				(reaction, u) =>
+				u.id === msg.author.id && (reaction.emoji.name === "✅" || reaction.emoji.name === "❌"), {
+					time: 1000 * 30,
+					errors: ["time"],
+					max: 1
+				}
+			)
+			.catch((e) => {
+				throw new Error("Timeout exceeded to respond");
+			});
+		collected = collected.first();
+		newShopItemMSG.reactions.removeAll();
+		switch (collected.emoji.name) {
+			case "✅":
+				shopitems.push({
+					name: nameText,
+					price: contentText
+				});
+
+				newShopItemMSG.edit(
+					"Shop Item Created. \n Item:``" + nameText + "`` \n Price:``" + contentText + "``", {
+						title: "Shop Item:",
+					}
+				);
+				break;
+			case "❌": {
+				newShopItemMSG.edit("Canceld Command");
+			}
+		}
+	}
+
+	async removeShopItem(msg, shopitems) {
+		var {
+			guild
+		} = msg;
+		var item = await this.getItem(msg, shopitems);
+		shopitems = shopitems.filter((x) => x !== item);
+		await this.client.provider.set(guild, "shopitems", shopitems);
+		msg.reply("``" + item.name + "`` was successfully removed.");
+	}
+
+	async listshopitems(msg, shopitems) {
+		if (!shopitems) return msg.reply("No Shop Items!");
+		msg.reply(
+			shopitems.map((item) => "" + `${item.name}` + "\nPrice: " + item.price).join("\n")
+		);
+	}
+
+	async getItem(msg, shopitems) {
+		var {
+			guild
+		} = msg;
+		var name = await msg.reply(
+			"What is the Item-Name?\nRespond with ``cancel`` to cancel the command. The command will automatically be cancelled in 30 seconds.	"
+		);
+		var collected = await msg.channel
+			.awaitMessages((message) => message.author.id === msg.author.id, {
+				max: 1,
+				time: 1000 * 60 * 10,
+				errors: ["time"],
+			})
+			.catch((e) => {
+				throw new Error("Timeout for command exceeded");
+			});
+		collected = collected.first();
+		var nameText = collected.content;
+		collected.delete();
+		name.delete();
+
+		if (collected.content === "cancel") {
+			throw "Command Canceled";
+		}
+		var item = await shopitems.find((item) => item.name === nameText);
+		if (!item) throw new Error("This Item doesn't exist");
+
+		return item;
+	}
+
+	async run(msg, args) {
+		try {
+			var {
+				client,
+				guild
+			} = msg;
+			var {
+				trigger
+			} = args;
+			var shopitems = this.client.provider.get(guild, "shopItems") || [];
+			if (trigger === "list") return await this.listshopitems(msg, shopitems);
+			if (trigger === "remove") return await this.removeShopItem(msg, shopitems);
+			if (trigger === "create") return await this.newShopItem(msg, shopitems);
+		} catch (error) {
+			msg.reply(error.toString());
+		}
+	}
+};

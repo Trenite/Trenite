@@ -1,0 +1,74 @@
+const Commando = require("discord.js-commando");
+
+module.exports = class BusterCommand extends Commando.Command {
+	constructor(client) {
+		super(client, {
+			name: "filter",
+			memberName: "filter",
+			aliases: [],
+			group: "mod",
+			description: "deletes links and swear words",
+			examples: ["filter disable/enable"],
+			userPermissions: ["MANAGE_ROLES"],
+			clientPermissions: ["SEND_MESSAGES", "MANAGE_MESSAGES"],
+			args: [
+				{
+					key: "state",
+					prompt: "disable/enable link and word filters",
+					type: "string",
+				},
+			],
+		});
+		// client.on("message", this.onMessage.bind(this))
+	}
+	async getDBsettings(key) {
+		return;
+	}
+	async setDBsetting(key, value) {
+		return;
+	}
+	async onMessage(msg) {
+		// linkBuster
+		// https://discord.gg/
+		// needs db usage for settings
+		// if(settings.Filters.filterLinks) {
+		if (msg.member.hasPermission("ADMINISTRATOR")) {
+			return;
+		}
+		let others = ["https:", "http:"];
+		others.forEach((y) => {
+			if (msg.content.include(y)) {
+				msg.channel
+					.send(
+						Commando.createMessage(guild, "sending invites or other links", {
+							title: ":x: STOP :x:",
+						})
+					)
+					.then((x) => {
+						x.delete({
+							timeout: 10000,
+						});
+					});
+				msg.delete();
+			} else {
+				return;
+			}
+		});
+	}
+
+	async run(msg, args) {
+		var { client, guild } = msg;
+		var state = args.state;
+		switch (state) {
+			case "enable":
+				//change filterstate to true
+				msg.reply("Enabled");
+				//send feedback 2 user
+				break;
+			case "disable":
+				msg.reply("Disabled");
+				//send feedback 2 user
+				break;
+		}
+	}
+};

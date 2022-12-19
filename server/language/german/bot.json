@@ -1,0 +1,26 @@
+{
+	"commands": {
+		"audio": {
+			"music": {
+				"empty": "Leer",
+				"entersearch": "YouTube/Spotify Link/Suchbegriff ...",
+				"examples": "Reagiere mit:\n⏯ um zu pausieren oder fortzufahren\n⏹ um die Warteschlange zu löschen \n⏮ um zum vorherigen Titel abzuspielen\n⏭ um zu überspringen\n🔀 um die Warteschlange \n🔁 um die Warteschlange zu wiederholen\n🔂 um die Endlosschleife zu aktiveren\n🔎 um nach Liedern zu suchen (Spotify, YouTube)\n🔉 um die Lautstärke zu verringern\n🔊 um die Lautstärke zu erhöhen\n<:spotify:690172298346496116> um die Musik mit deinem Spotify-Konto zu synchronisieren und zusammen mit deinen Freunden zu hören",
+				"live": "",
+				"loop": "Dauerschleife",
+				"nopermission": "Ich habe keine Berechtigung im ",
+				"novoicechannel": "Trete einem Sprachkanal bei, um Musik abzuspielen!",
+				"paused": "Pausiert",
+				"playing": "Abspielen",
+				"playlistnotfound": "Playlist konnte nicht gefunden werden",
+				"repeat": "Warteschlange wiederholen",
+				"songnotfound": "Lied nicht gefunden",
+				"time": "Zeit",
+				"voicechannel": "Sprachkanal",
+				"volume": "Lautstärke"
+			}
+		}
+	},
+	"general": {
+		"error": "Fehler"
+	}
+}
